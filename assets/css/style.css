@@ -1125,3 +1125,132 @@ footer {
     display: none;
   }
 }
+
+/* ============ PROJEKT A-Z - BEGINNER FRIENDLY ============ */
+
+/* Glossary Grid - Begriffe erklärt */
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.glossary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 16px;
+  background: rgba(124, 242, 198, 0.05);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+}
+
+.glossary-term {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 14px;
+}
+
+.glossary-def {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* Summary Steps - Visual Flow */
+.summary-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.summary-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.step-num {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  color: var(--bg);
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.step-arrow {
+  color: var(--accent);
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.summary-note {
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+/* Tech Stack with Explanations */
+.tech-item-explained {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.tech-name {
+  font-weight: 600;
+  color: var(--accent);
+  font-size: 13px;
+}
+
+.tech-explain {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: right;
+  flex: 1;
+  margin-left: 12px;
+}
+
+/* Responsive for summary steps */
+@media (max-width: 720px) {
+  .summary-steps {
+    flex-direction: column;
+  }
+
+  .step-arrow {
+    transform: rotate(90deg);
+  }
+
+  .glossary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tech-item-explained {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .tech-explain {
+    text-align: left;
+    margin-left: 0;
+  }
+}
