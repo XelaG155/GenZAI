@@ -787,11 +787,1066 @@ Prinzip: Least Privilege
 
 ---
 
+## Kapitel 7: Azure Governance & Compliance
+
+### Azure Policy
+
+**Azure Policy** = Regeln die automatisch durchgesetzt werden
+
+```
+Beispiele für Policies:
+─────────────────────────────────
+- "Nur VMs in West Europe erlaubt"
+- "Storage muss verschlüsselt sein"
+- "Keine Public IPs auf VMs"
+- "Nur bestimmte VM-Größen erlaubt"
+- "Tags sind Pflicht"
+
+Was passiert bei Verstoß?
+- Deny:     Ressource kann nicht erstellt werden
+- Audit:    Warnung, aber erlaubt
+- Modify:   Automatisch korrigieren
+- DeployIfNotExists: Fehlende Ressource erstellen
+```
+
+### Azure Blueprints
+
+**Blueprints** = Vorlagen für komplette Umgebungen
+
+```
+┌─────────────────────────────────────────────┐
+│              AZURE BLUEPRINT                 │
+│                                              │
+│  ┌───────────────────────────────────────┐  │
+│  │ Resource Groups                       │  │
+│  │ + Policies                            │  │
+│  │ + RBAC Assignments                    │  │
+│  │ + ARM Templates                       │  │
+│  │ + Artifacts                           │  │
+│  └───────────────────────────────────────┘  │
+│                                              │
+│  1x definieren → beliebig oft anwenden      │
+│                                              │
+│  Beispiel: "Sichere Web-App Umgebung"       │
+│  - Resource Group mit Tags                  │
+│  - App Service + SQL Database               │
+│  - Policies für Compliance                  │
+│  - Reader-Rolle für Audit-Team              │
+└─────────────────────────────────────────────┘
+```
+
+### Resource Locks
+
+**Locks** = Schutz vor versehentlichem Löschen/Ändern
+
+```
+Lock-Typen:
+───────────────────
+ReadOnly:  Ressource kann nur gelesen werden
+           (keine Änderungen, kein Löschen)
+
+Delete:    Ressource kann geändert werden
+           (aber nicht gelöscht)
+
+Wann nutzen?
+→ Production-Datenbanken
+→ Wichtige VNets
+→ Storage mit kritischen Daten
+
+# Azure CLI Beispiel
+az lock create --name "CanNotDelete" \
+  --lock-type CanNotDelete \
+  --resource-group myRG
+```
+
+### Tags
+
+**Tags** = Metadaten für Ressourcen (Key-Value Pairs)
+
+```
+Typische Tags:
+───────────────────────────────
+environment: production / dev / staging
+project: StudyBuddy
+costcenter: IT-123
+owner: max@firma.de
+created: 2024-01-15
+
+Warum Tags?
+✓ Kosten nach Projekt filtern
+✓ Ressourcen finden
+✓ Automatisierung (z.B. Dev nachts aus)
+✓ Compliance-Reporting
+
+Azure Policy für Tags:
+"Require a tag on resources" → Ohne Tag keine Erstellung
+```
+
+### Management Groups
+
+**Management Groups** = Hierarchie über Subscriptions
+
+```
+┌─────────────────────────────────────────────────┐
+│            Root Management Group                 │
+│                                                  │
+│   ┌─────────────────┐   ┌─────────────────┐    │
+│   │ MG: Production  │   │ MG: Development │    │
+│   │                 │   │                 │    │
+│   │ ┌─────────────┐│   │ ┌─────────────┐│    │
+│   │ │ Sub: Prod-EU││   │ │ Sub: Dev    ││    │
+│   │ └─────────────┘│   │ └─────────────┘│    │
+│   │ ┌─────────────┐│   │ ┌─────────────┐│    │
+│   │ │ Sub: Prod-US││   │ │ Sub: Test   ││    │
+│   │ └─────────────┘│   │ └─────────────┘│    │
+│   └─────────────────┘   └─────────────────┘    │
+│                                                  │
+│   Policies auf MG-Level → gilt für alle         │
+│   Subscriptions darunter!                       │
+└─────────────────────────────────────────────────┘
+```
+
+---
+
+## Kapitel 8: Azure Management Tools
+
+### Azure Portal
+
+**Das Web-Interface** - portal.azure.com
+
+```
+Vorteile:
+✓ Grafische Oberfläche
+✓ Gut für Anfänger
+✓ Schnelle Übersicht
+✓ Dashboards anpassbar
+
+Nachteile:
+✗ Nicht automatisierbar
+✗ Langsamer als CLI
+✗ Klick-Fehler möglich
+```
+
+### Azure CLI
+
+**Command Line Interface** - Terminal/PowerShell
+
+```bash
+# Installation
+# Windows: winget install Microsoft.AzureCLI
+# Mac: brew install azure-cli
+# Linux: curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+# Login
+az login
+
+# Subscription setzen
+az account set --subscription "My Subscription"
+
+# Resource Group erstellen
+az group create --name myRG --location westeurope
+
+# VM erstellen
+az vm create \
+  --resource-group myRG \
+  --name myVM \
+  --image Ubuntu2204 \
+  --admin-username azureuser \
+  --generate-ssh-keys
+
+# Alle VMs auflisten
+az vm list --output table
+```
+
+### Azure PowerShell
+
+**Für Windows-Admins**
+
+```powershell
+# Installation
+Install-Module -Name Az -Repository PSGallery -Force
+
+# Login
+Connect-AzAccount
+
+# Resource Group erstellen
+New-AzResourceGroup -Name myRG -Location "West Europe"
+
+# VM erstellen
+New-AzVM `
+  -ResourceGroupName myRG `
+  -Name myVM `
+  -Location "West Europe" `
+  -Image Ubuntu2204
+```
+
+### Azure Cloud Shell
+
+**Browser-basierte Shell** - Direkt im Portal
+
+```
+Vorteile:
+✓ Keine Installation nötig
+✓ Immer aktuell
+✓ CLI + PowerShell verfügbar
+✓ Persistenter Storage (5 GB)
+✓ Vorinstallierte Tools (git, kubectl, terraform)
+
+Zugang:
+→ portal.azure.com → Cloud Shell Icon (>_)
+→ shell.azure.com
+```
+
+### ARM Templates (Infrastructure as Code)
+
+**JSON-Vorlagen für Azure Ressourcen**
+
+```json
+{
+  "$schema": "https://schema.management.azure.com/...",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageAccountName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2021-02-01",
+      "name": "[parameters('storageAccountName')]",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "StorageV2"
+    }
+  ]
+}
+```
+
+```
+Vorteile von IaC:
+✓ Wiederholbar
+✓ Versionierbar (Git)
+✓ Review-fähig
+✓ Konsistente Umgebungen
+✓ Dokumentation inklusive
+```
+
+### Bicep (Modernes IaC)
+
+**Einfachere Alternative zu ARM JSON**
+
+```bicep
+// storage.bicep
+param storageAccountName string
+param location string = resourceGroup().location
+
+resource storageAccount 'Microsoft.Storage/storageAccounts@2021-02-01' = {
+  name: storageAccountName
+  location: location
+  sku: {
+    name: 'Standard_LRS'
+  }
+  kind: 'StorageV2'
+}
+
+output storageEndpoint string = storageAccount.properties.primaryEndpoints.blob
+```
+
+```bash
+# Deployment
+az deployment group create \
+  --resource-group myRG \
+  --template-file storage.bicep \
+  --parameters storageAccountName=mystorageacc
+```
+
+### Azure Arc
+
+**Azure-Management für alles (auch On-Premises)**
+
+```
+┌─────────────────────────────────────────────┐
+│                 AZURE ARC                    │
+│                                              │
+│  Managed Alles:                             │
+│  ┌─────────┐ ┌─────────┐ ┌─────────┐       │
+│  │ Azure   │ │ On-Prem │ │ Other   │       │
+│  │ VMs     │ │ Server  │ │ Clouds  │       │
+│  └─────────┘ └─────────┘ └─────────┘       │
+│                                              │
+│  → Einheitliches Management                 │
+│  → Azure Policy auch für On-Prem            │
+│  → Zentrales Monitoring                     │
+└─────────────────────────────────────────────┘
+```
+
+---
+
+## Kapitel 9: Azure Monitoring
+
+### Azure Monitor
+
+**Zentrale Monitoring-Plattform**
+
+```
+┌─────────────────────────────────────────────────┐
+│                 AZURE MONITOR                    │
+│                                                  │
+│  Datenquellen:          Funktionen:             │
+│  ┌──────────────┐       ┌──────────────────┐   │
+│  │ Metrics      │──────→│ Dashboards       │   │
+│  │ Logs         │──────→│ Alerts           │   │
+│  │ Traces       │──────→│ Autoscale        │   │
+│  └──────────────┘       │ Workbooks        │   │
+│                         │ Insights         │   │
+│                         └──────────────────┘   │
+│                                                  │
+│  Log Analytics Workspace = Zentrale Datenbank   │
+└─────────────────────────────────────────────────┘
+```
+
+**Metrics vs Logs:**
+```
+Metrics:
+- Numerische Daten
+- Zeitreihen (CPU %, RAM, etc.)
+- Schnelle Abfragen
+- 93 Tage Retention (Standard)
+
+Logs:
+- Detaillierte Events
+- Text-basiert
+- KQL (Kusto Query Language)
+- Konfigurierbare Retention
+```
+
+### Azure Service Health
+
+**Status von Azure selbst**
+
+```
+3 Bereiche:
+─────────────────────────────────────
+1. Azure Status:      Globale Ausfälle
+                      → status.azure.com
+
+2. Service Health:    Probleme die DICH betreffen
+                      → Deine Regionen/Services
+
+3. Resource Health:   Status deiner Ressourcen
+                      → Ist meine VM gesund?
+
+Alerts einrichten:
+→ Service Health → Health Alerts → Create
+→ Email bei Problemen in "West Europe"
+```
+
+### Azure Advisor
+
+**Kostenlose Empfehlungen**
+
+```
+┌─────────────────────────────────────────────┐
+│              AZURE ADVISOR                   │
+│                                              │
+│  Kategorien:                                │
+│  ┌─────────────────────────────────────┐   │
+│  │ 💰 Cost         "VM ist oversized"   │   │
+│  │ 🔒 Security     "MFA nicht aktiv"    │   │
+│  │ ⚡ Performance  "Disk zu langsam"    │   │
+│  │ 🎯 Reliability  "Kein Backup"        │   │
+│  │ ✨ Excellence   "Best Practices"     │   │
+│  └─────────────────────────────────────┘   │
+│                                              │
+│  Score: 0-100% pro Kategorie                │
+│  → Höher = besser                           │
+└─────────────────────────────────────────────┘
+```
+
+### Application Insights
+
+**Monitoring für deine Apps**
+
+```python
+# Python SDK Beispiel
+from opencensus.ext.azure.trace_exporter import AzureExporter
+from opencensus.trace.samplers import ProbabilitySampler
+from opencensus.trace.tracer import Tracer
+
+tracer = Tracer(
+    exporter=AzureExporter(
+        connection_string='InstrumentationKey=xxx'
+    ),
+    sampler=ProbabilitySampler(1.0)
+)
+
+with tracer.span(name='my_function'):
+    # Dein Code hier
+    pass
+```
+
+```
+Was du siehst:
+✓ Request-Zeiten
+✓ Fehler-Rate
+✓ Abhängigkeiten (DB, APIs)
+✓ Custom Events
+✓ User Flows
+✓ Live Metrics
+```
+
+---
+
+## Kapitel 10: Azure Security (Defense in Depth)
+
+### Defense in Depth
+
+**Mehrere Sicherheitsebenen**
+
+```
+┌─────────────────────────────────────────────────────┐
+│                    PHYSICAL                          │
+│  (Datacenter: Zäune, Kameras, Biometrie)            │
+│  ┌─────────────────────────────────────────────┐    │
+│  │                  IDENTITY                    │    │
+│  │  (Entra ID: MFA, Conditional Access)        │    │
+│  │  ┌─────────────────────────────────────┐   │    │
+│  │  │             PERIMETER                │   │    │
+│  │  │  (DDoS, Firewall, WAF)              │   │    │
+│  │  │  ┌─────────────────────────────┐   │   │    │
+│  │  │  │          NETWORK             │   │   │    │
+│  │  │  │  (NSG, VNet, Subnets)       │   │   │    │
+│  │  │  │  ┌─────────────────────┐   │   │   │    │
+│  │  │  │  │      COMPUTE         │   │   │   │    │
+│  │  │  │  │  (VM Security)       │   │   │   │    │
+│  │  │  │  │  ┌─────────────┐    │   │   │   │    │
+│  │  │  │  │  │ APPLICATION │    │   │   │   │    │
+│  │  │  │  │  │ ┌─────────┐│    │   │   │   │    │
+│  │  │  │  │  │ │  DATA   ││    │   │   │   │    │
+│  │  │  │  │  │ │(Encrypt)││    │   │   │   │    │
+│  │  │  │  │  │ └─────────┘│    │   │   │   │    │
+│  │  │  │  │  └─────────────┘    │   │   │   │    │
+│  │  │  │  └─────────────────────┘   │   │   │    │
+│  │  │  └─────────────────────────────┘   │   │    │
+│  │  └─────────────────────────────────────┘   │    │
+│  └─────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────┘
+```
+
+### Zero Trust Model
+
+**"Never trust, always verify"**
+
+```
+Prinzipien:
+──────────────────────────────────────
+1. Verify explicitly
+   → Immer authentifizieren + autorisieren
+   → Alle Signale prüfen (User, Location, Device)
+
+2. Least privilege access
+   → Nur minimale Rechte geben
+   → Just-In-Time (JIT) Access
+
+3. Assume breach
+   → Davon ausgehen, dass Angreifer drin sind
+   → Micro-Segmentation
+   → Encrypt everywhere
+   → Analytics für Anomalien
+
+Alt (Perimeter-basiert):    Neu (Zero Trust):
+┌──────────────────┐        ┌──────────────────┐
+│ 🏰 Firewall      │        │ Jeder Request:   │
+│ Drinnen = Sicher │        │ - Wer bist du?   │
+│ Draußen = Gefahr │        │ - Was darfst du? │
+└──────────────────┘        │ - Ist das normal?│
+                            └──────────────────┘
+```
+
+### Microsoft Defender for Cloud
+
+**Security Posture Management + Threat Protection**
+
+```
+┌─────────────────────────────────────────────────┐
+│          MICROSOFT DEFENDER FOR CLOUD            │
+│                                                  │
+│  Secure Score: 76/100                           │
+│  ████████████████████░░░░░░                     │
+│                                                  │
+│  Empfehlungen:                                  │
+│  ┌────────────────────────────────────────┐    │
+│  │ ⚠️ MFA nicht für alle Admins aktiv      │    │
+│  │ ⚠️ Storage Account erlaubt Public       │    │
+│  │ ⚠️ SQL Firewall zu offen               │    │
+│  │ ✅ VMs haben Updates installiert        │    │
+│  └────────────────────────────────────────┘    │
+│                                                  │
+│  Threat Protection:                             │
+│  → Alerts bei verdächtigem Verhalten           │
+│  → Malware Detection                           │
+│  → Brute Force Detection                       │
+└─────────────────────────────────────────────────┘
+```
+
+### Azure Key Vault
+
+**Sichere Aufbewahrung von Secrets**
+
+```
+Was speichern?
+─────────────────────
+- API Keys
+- Passwörter
+- Zertifikate
+- Encryption Keys
+
+Warum?
+✓ Keine Secrets im Code
+✓ Zentrale Verwaltung
+✓ Access Policies
+✓ Audit Logs
+✓ HSM-backed (Hardware Security Module)
+
+# Azure CLI
+az keyvault create --name myVault --resource-group myRG
+
+az keyvault secret set \
+  --vault-name myVault \
+  --name "OpenAI-Key" \
+  --value "sk-xxx"
+
+az keyvault secret show \
+  --vault-name myVault \
+  --name "OpenAI-Key"
+```
+
+### Network Security Groups (NSG)
+
+**Firewall für VNets**
+
+```
+┌─────────────────────────────────────────────────┐
+│                      NSG                         │
+│                                                  │
+│  Inbound Rules:         Outbound Rules:         │
+│  ┌─────────────────┐   ┌─────────────────┐     │
+│  │ Priority: 100   │   │ Priority: 100   │     │
+│  │ Allow SSH (22)  │   │ Allow Internet  │     │
+│  │ Source: My IP   │   │                 │     │
+│  ├─────────────────┤   ├─────────────────┤     │
+│  │ Priority: 200   │   │ Priority: 65000 │     │
+│  │ Allow HTTPS     │   │ Deny All        │     │
+│  │ Source: Any     │   │                 │     │
+│  ├─────────────────┤   └─────────────────┘     │
+│  │ Priority: 65500 │                           │
+│  │ Deny All        │                           │
+│  └─────────────────┘                           │
+│                                                  │
+│  → Niedrigere Priority = wird zuerst geprüft   │
+└─────────────────────────────────────────────────┘
+```
+
+---
+
+## Kapitel 11: Azure Networking (Erweitert)
+
+### Virtual Network (VNet) Deep Dive
+
+```
+┌─────────────────────────────────────────────────────┐
+│              VNET: 10.0.0.0/16                       │
+│                                                      │
+│  ┌─────────────────┐    ┌─────────────────┐        │
+│  │ Subnet: Web     │    │ Subnet: DB      │        │
+│  │ 10.0.1.0/24     │    │ 10.0.2.0/24     │        │
+│  │                 │    │                 │        │
+│  │ ┌─────┐ ┌─────┐│    │ ┌─────┐        │        │
+│  │ │ VM1 │ │ VM2 ││    │ │ SQL │        │        │
+│  │ └─────┘ └─────┘│    │ └─────┘        │        │
+│  │                 │    │                 │        │
+│  │ NSG: Allow HTTP │    │ NSG: Only Web  │        │
+│  └─────────────────┘    └─────────────────┘        │
+│                                                      │
+│  → Subnets können unterschiedliche NSGs haben       │
+│  → Kommunikation zwischen Subnets standardmäßig OK  │
+└─────────────────────────────────────────────────────┘
+```
+
+### VNet Peering
+
+**VNets verbinden**
+
+```
+┌───────────────┐              ┌───────────────┐
+│  VNet Europe  │◄────────────►│  VNet US      │
+│  10.1.0.0/16  │   Peering    │  10.2.0.0/16  │
+└───────────────┘              └───────────────┘
+
+Eigenschaften:
+✓ Traffic bleibt im Microsoft-Backbone
+✓ Keine Gateways nötig
+✓ Low Latency
+✓ Auch zwischen Subscriptions möglich
+✓ Auch zwischen Regionen (Global Peering)
+```
+
+### VPN Gateway
+
+**Sichere Verbindung zu On-Premises**
+
+```
+┌─────────────────┐                    ┌─────────────────┐
+│  On-Premises    │                    │  Azure VNet     │
+│  192.168.0.0/16 │                    │  10.0.0.0/16    │
+│                 │                    │                 │
+│  ┌───────────┐  │   🔒 IPsec VPN    │  ┌───────────┐  │
+│  │ VPN Device│◄─┼──────────────────►┼─►│VPN Gateway│  │
+│  └───────────┘  │   (Internet)       │  └───────────┘  │
+└─────────────────┘                    └─────────────────┘
+
+Typen:
+- Site-to-Site (S2S): Firma ↔ Azure
+- Point-to-Site (P2S): Einzelner Laptop ↔ Azure
+- VNet-to-VNet: Azure VNet ↔ Azure VNet
+```
+
+### ExpressRoute
+
+**Private Verbindung zu Azure (nicht über Internet)**
+
+```
+┌─────────────────┐                    ┌─────────────────┐
+│  On-Premises    │                    │  Azure          │
+│                 │                    │                 │
+│                 │   Private Leitung  │                 │
+│                 │◄──────────────────►│                 │
+│                 │   (kein Internet!) │                 │
+└─────────────────┘                    └─────────────────┘
+         ↑                                      ↑
+         │                                      │
+    Connectivity                          Microsoft
+    Provider                              Edge Router
+    (z.B. Telekom)
+
+Vorteile:
+✓ Höhere Bandbreite (bis 100 Gbps)
+✓ Niedrigere Latenz
+✓ Zuverlässiger als VPN
+✓ Kein öffentliches Internet
+
+Kosten: Ab ~200€/Monat + Provider-Kosten
+```
+
+### Azure Firewall
+
+**Managed Cloud Firewall**
+
+```
+┌─────────────────────────────────────────────────────┐
+│                   AZURE FIREWALL                     │
+│                                                      │
+│  Features:                                          │
+│  ✓ Stateful Firewall                               │
+│  ✓ Application Rules (FQDN-basiert)                │
+│  ✓ Network Rules (IP-basiert)                      │
+│  ✓ NAT Rules                                       │
+│  ✓ Threat Intelligence                             │
+│  ✓ TLS Inspection (Premium)                        │
+│                                                      │
+│  Beispiel-Regel:                                    │
+│  "Allow *.github.com, *.docker.io"                 │
+│  → Statt nur IP-Adressen                           │
+│                                                      │
+│  Kosten: ~900€/Monat + Traffic                     │
+└─────────────────────────────────────────────────────┘
+```
+
+### Azure DDoS Protection
+
+**Schutz vor Distributed Denial of Service**
+
+```
+Tiers:
+──────────────────────────────────────
+Basic (Kostenlos):
+→ Automatisch für alle Azure-Ressourcen
+→ Schutz gegen gängige Angriffe
+→ Keine Konfiguration nötig
+
+Standard (~3000€/Monat):
+→ ML-basierte Erkennung
+→ Angepasst an dein Traffic-Muster
+→ Real-time Metrics
+→ Alerting
+→ Cost Protection (Erstattung bei Angriff)
+```
+
+### Azure Load Balancer
+
+**Traffic verteilen**
+
+```
+                    ┌─────────────────┐
+    Internet ─────► │  Load Balancer  │
+                    └────────┬────────┘
+                             │
+              ┌──────────────┼──────────────┐
+              ▼              ▼              ▼
+         ┌────────┐    ┌────────┐    ┌────────┐
+         │  VM 1  │    │  VM 2  │    │  VM 3  │
+         └────────┘    └────────┘    └────────┘
+
+Typen:
+- Basic: Kostenlos, einfach
+- Standard: Availability Zones, SLA 99.99%
+
+Layer 4 (TCP/UDP) → Azure Load Balancer
+Layer 7 (HTTP/S)  → Application Gateway
+```
+
+---
+
+## Kapitel 12: Azure Solutions
+
+### Azure IoT Hub
+
+**Internet of Things Platform**
+
+```
+┌─────────────────────────────────────────────────┐
+│                  AZURE IoT HUB                   │
+│                                                  │
+│  ┌──────┐ ┌──────┐ ┌──────┐                    │
+│  │Device│ │Device│ │Device│  ... Millionen     │
+│  └──┬───┘ └──┬───┘ └──┬───┘                    │
+│     │        │        │                         │
+│     └────────┼────────┘                         │
+│              ▼                                  │
+│     ┌────────────────┐                         │
+│     │    IoT Hub     │                         │
+│     └───────┬────────┘                         │
+│             │                                   │
+│     ┌───────┴────────┐                         │
+│     ▼                ▼                         │
+│  Stream         Azure                          │
+│  Analytics      Functions                      │
+│     │                │                         │
+│     ▼                ▼                         │
+│  Storage       ML/Alerts                       │
+└─────────────────────────────────────────────────┘
+
+Use Cases:
+→ Smart Home, Factory, City
+→ Predictive Maintenance
+→ Remote Monitoring
+```
+
+### Azure Synapse Analytics
+
+**Big Data + Data Warehouse**
+
+```
+┌─────────────────────────────────────────────────┐
+│              AZURE SYNAPSE ANALYTICS             │
+│                                                  │
+│  Datenquellen:                                  │
+│  ┌─────────┐ ┌─────────┐ ┌─────────┐          │
+│  │ SQL DB  │ │  Blob   │ │Cosmos DB│          │
+│  └────┬────┘ └────┬────┘ └────┬────┘          │
+│       │           │           │                │
+│       └───────────┼───────────┘                │
+│                   ▼                            │
+│     ┌─────────────────────────────┐           │
+│     │    Synapse Workspace        │           │
+│     │  ┌────────┐  ┌────────┐    │           │
+│     │  │Spark   │  │SQL Pool│    │           │
+│     │  │Pools   │  │(DWH)   │    │           │
+│     │  └────────┘  └────────┘    │           │
+│     └─────────────────────────────┘           │
+│                   │                            │
+│                   ▼                            │
+│            Power BI / ML                       │
+└─────────────────────────────────────────────────┘
+```
+
+### Azure DevOps
+
+**CI/CD + Projektmanagement**
+
+```
+Azure DevOps Services:
+──────────────────────────────────────
+1. Azure Repos     → Git Repositories
+2. Azure Pipelines → CI/CD (Gratis für Open Source!)
+3. Azure Boards    → Kanban, Sprints, Backlogs
+4. Azure Artifacts → Package Management
+5. Azure Test Plans→ Test Management
+
+Alternative: GitHub + GitHub Actions
+(Auch von Microsoft, oft einfacher)
+```
+
+### Azure Cognitive Services
+
+**Fertige AI/ML APIs**
+
+```
+Vision:
+- Computer Vision (Bild-Analyse)
+- Face API (Gesichtserkennung)
+- Custom Vision (Eigene Modelle)
+
+Speech:
+- Speech-to-Text
+- Text-to-Speech
+- Speech Translation
+
+Language:
+- Text Analytics (Sentiment)
+- Translator
+- LUIS (Language Understanding)
+- Azure OpenAI Service (GPT-4, DALL-E)
+
+Decision:
+- Personalizer
+- Content Moderator
+- Anomaly Detector
+```
+
+---
+
+## Kapitel 13: SLA, Support & Lifecycle
+
+### Service Level Agreements (SLA)
+
+**Garantierte Verfügbarkeit**
+
+```
+Typische Azure SLAs:
+──────────────────────────────────────
+VMs (Single):           99.9%    (8.76h Downtime/Jahr)
+VMs (Availability Set): 99.95%   (4.38h)
+VMs (Availability Zone):99.99%   (52 min)
+
+App Service:            99.95%
+Azure SQL Database:     99.99%
+Azure Functions:        99.95%
+Storage (RA-GRS):       99.99%
+Azure AD:               99.99%
+
+Zusammengesetztes SLA:
+App (99.95%) × DB (99.99%) = 99.94%
+→ Mehr Komponenten = niedrigere Gesamt-SLA
+```
+
+### Was passiert bei SLA-Verletzung?
+
+```
+Service Credits (Gutschriften):
+──────────────────────────────────────
+< 99.99% aber ≥ 99%:     10% Credit
+< 99% aber ≥ 95%:        25% Credit
+< 95%:                   100% Credit
+
+Beispiel:
+→ VM-Rechnung: 100€/Monat
+→ SLA 99.9% gebrochen (99.5%)
+→ Erstattung: 25€
+
+WICHTIG:
+- Du musst Credit selbst beantragen!
+- Innerhalb von 2 Monaten
+- via Support Ticket
+```
+
+### Azure Support Plans
+
+```
+┌────────────────┬───────────────┬────────────────┬────────────────┐
+│     BASIC      │   DEVELOPER   │   STANDARD     │  PROFESSIONAL  │
+│   (Kostenlos)  │   (29$/mo)    │   (100$/mo)    │   (1000$/mo)   │
+├────────────────┼───────────────┼────────────────┼────────────────┤
+│ Docs, Forums   │ Email Support │ 24/7 Phone     │ 24/7 Phone     │
+│ Billing Support│ Business Hours│ < 1h Critical  │ < 15min Crit.  │
+│                │ < 8h Response │ < 4h High      │ < 2h High      │
+│                │               │ Technical Acct │ + Proactive    │
+│                │               │ Manager (TAM)  │ Guidance       │
+└────────────────┴───────────────┴────────────────┴────────────────┘
+
+Für Startups/Lernen: Basic oder Developer reicht
+Für Production: Mindestens Standard
+```
+
+### Service Lifecycle
+
+**Preview vs General Availability (GA)**
+
+```
+┌─────────────────────────────────────────────────────┐
+│               SERVICE LIFECYCLE                      │
+│                                                      │
+│  1. Private Preview                                 │
+│     → Nur eingeladene Kunden                        │
+│     → Kein SLA, kein Support                        │
+│                                                      │
+│  2. Public Preview                                  │
+│     → Jeder kann testen                             │
+│     → Kein SLA, limitierter Support                 │
+│     → Oft günstiger oder gratis                     │
+│     → NICHT für Production!                         │
+│                                                      │
+│  3. General Availability (GA)                       │
+│     → Production-ready                              │
+│     → SLA garantiert                                │
+│     → Voller Support                                │
+│     → Normale Preise                                │
+│                                                      │
+│  4. Deprecation (Abkündigung)                       │
+│     → 12 Monate Vorlauf (minimum)                   │
+│     → Migration zu neuem Service                    │
+└─────────────────────────────────────────────────────┘
+```
+
+---
+
+## Kapitel 14: Azure Kosten-Tools
+
+### Azure Pricing Calculator
+
+**Kosten VOR dem Deployen schätzen**
+
+```
+URL: azure.microsoft.com/pricing/calculator
+
+So nutzen:
+1. Produkte hinzufügen (z.B. VM, Storage)
+2. Konfiguration wählen
+3. Region wählen
+4. Geschätzte Kosten sehen
+
+Beispiel-Schätzung:
+┌────────────────────────────────────────┐
+│ D2s v3 VM (2 vCPU, 8 GB) West Europe  │
+│ - Pay-as-you-go:        ~€65/mo       │
+│ - 1 Year Reserved:      ~€40/mo       │
+│ - 3 Year Reserved:      ~€26/mo       │
+│                                        │
+│ + 128 GB SSD:           ~€10/mo       │
+│ + Outbound Traffic:     ~€5/mo        │
+│ ────────────────────────────────      │
+│ Total:                  ~€80/mo       │
+└────────────────────────────────────────┘
+```
+
+### Total Cost of Ownership (TCO) Calculator
+
+**Cloud vs On-Premises vergleichen**
+
+```
+URL: azure.microsoft.com/pricing/tco/calculator
+
+Input:
+┌────────────────────────────────────────┐
+│ Aktuelle On-Premises Infrastruktur:   │
+│ - 10 Server (Windows/Linux)           │
+│ - 2 Datenbanken                       │
+│ - 5 TB Storage                        │
+│ - Strom, Kühlung, IT-Personal         │
+└────────────────────────────────────────┘
+
+Output:
+┌────────────────────────────────────────┐
+│ 5-Jahres-Vergleich:                   │
+│                                        │
+│ On-Premises:  €500,000                │
+│ Azure:        €300,000                │
+│ ─────────────────────                 │
+│ Ersparnis:    €200,000 (40%)          │
+│                                        │
+│ Aufgeschlüsselt nach:                 │
+│ - Hardware, Software, Datacenter      │
+│ - IT-Personal, Strom                  │
+│ - Netzwerk                            │
+└────────────────────────────────────────┘
+```
+
+### Azure Cost Management
+
+**Kosten NACH dem Deployen tracken**
+
+```
+Features:
+─────────────────────────────────────
+1. Cost Analysis
+   → Wo geht das Geld hin?
+   → Nach Resource Group, Tag, Service
+
+2. Budgets
+   → "Alert bei 80% von 500€"
+   → Email-Benachrichtigungen
+
+3. Recommendations
+   → "Diese VM ist oversized"
+   → "Reserved Instance würde 40% sparen"
+
+4. Exports
+   → Kosten-Daten als CSV
+   → Für Buchhaltung/Reporting
+```
+
+### Kosten-Optimierung Strategien
+
+```
+1. Right-Sizing
+   ─────────────────────────────────
+   → VM-Größe an Bedarf anpassen
+   → Azure Advisor Empfehlungen nutzen
+   → Regelmäßig Auslastung prüfen
+
+2. Reserved Instances
+   ─────────────────────────────────
+   → 1 Jahr: ~40% sparen
+   → 3 Jahre: ~60% sparen
+   → Nur für stabile Workloads!
+
+3. Spot VMs
+   ─────────────────────────────────
+   → Ungenutzte Kapazität
+   → Bis zu 90% günstiger
+   → Kann jederzeit gestoppt werden
+   → Gut für: Batch Jobs, Dev/Test
+
+4. Auto-Shutdown
+   ─────────────────────────────────
+   → Dev-VMs nachts ausschalten
+   → ~70% Kosten sparen
+   → Azure Auto-Shutdown Feature
+
+5. Tags für Kostenzuordnung
+   ─────────────────────────────────
+   → project: xyz
+   → environment: dev/prod
+   → costcenter: abc
+   → Filtern nach Tags in Cost Analysis
+
+6. Azure Hybrid Benefit
+   ─────────────────────────────────
+   → Windows Server Lizenzen mitbringen
+   → Bis zu 40% sparen
+   → Auch für SQL Server
+```
+
+---
+
 # TEIL 2: PRAKTISCHE UMSETZUNG
 
 ---
 
-## Kapitel 7: Provider Empfehlungen
+## Kapitel 15: Provider Empfehlungen
 
 ### Für AI-Projekte
 
@@ -829,7 +1884,7 @@ Für Azure-Erfahrung (AZ-900):
 
 ---
 
-## Kapitel 8: Server Setup (Hetzner Beispiel)
+## Kapitel 16: Server Setup (Hetzner Beispiel)
 
 ### Schritt 1: Account & VM erstellen
 
@@ -920,7 +1975,7 @@ sudo systemctl restart sshd
 
 ---
 
-## Kapitel 9: Docker
+## Kapitel 17: Docker
 
 ### Was ist Docker?
 
@@ -1047,7 +2102,7 @@ docker compose build && docker compose up -d
 
 ---
 
-## Kapitel 10: Deployment
+## Kapitel 18: Deployment
 
 ### Option A: Manuelles Deploy
 
@@ -1106,7 +2161,7 @@ jobs:
 
 ---
 
-## Kapitel 11: HTTPS & Domain
+## Kapitel 19: HTTPS & Domain
 
 ### Domain kaufen
 
@@ -1168,7 +2223,7 @@ sudo journalctl -u caddy -f
 
 ---
 
-## Kapitel 12: Monitoring
+## Kapitel 20: Monitoring (Praktisch)
 
 ### Basic: Docker Logs
 
@@ -1238,7 +2293,7 @@ async def log_requests(request, call_next):
 
 ---
 
-## Kapitel 13: Kosten & Optimierung
+## Kapitel 21: Kosten-Tracking (Praktisch)
 
 ### Beispiel-Kalkulation
 
@@ -1294,7 +2349,7 @@ def log_usage(prompt: str, response: str, model: str):
 
 ---
 
-## Kapitel 14: Security Checklist
+## Kapitel 22: Security Checklist
 
 ### Vor dem Launch
 
@@ -1321,7 +2376,7 @@ def log_usage(prompt: str, response: str, model: str):
 
 ---
 
-## Kapitel 15: Troubleshooting
+## Kapitel 23: Troubleshooting
 
 ### Container startet nicht
 
@@ -1432,10 +2487,35 @@ sudo apt update && sudo apt upgrade -y
 
 ## Next Steps
 
-1. **Cloud-Basics verstehen**: Kapitel 1-6 für die Theorie (auch AZ-900 relevant!)
-2. **Erstes Deploy**: Kapitel 8-11 Schritt für Schritt
-3. **Monitoring**: Richte UptimeRobot ein (Kapitel 12)
-4. **Security**: Checklist in Kapitel 14 durchgehen
-5. **Zertifizierung**: Mit diesem Wissen bist du bereit für AZ-900!
+### Für AZ-900 Zertifizierung:
+1. **Cloud-Basics**: Kapitel 1-6 (IaaS/PaaS/SaaS, CapEx/OpEx, HA, Skalierung)
+2. **Azure-Spezifisch**: Kapitel 6-14 (Services, Governance, Security, Networking)
+3. **Praxis üben**: Azure Free Account erstellen, Portal erkunden
+4. **Mock Exams**: Microsoft Learn Practice Tests
+
+### Für dein AI-Projekt:
+1. **Provider wählen**: Kapitel 15 (Hetzner/Railway für Start)
+2. **Server aufsetzen**: Kapitel 16-19 (Setup, Docker, Deploy, HTTPS)
+3. **Monitoring**: Kapitel 20 (Logs, Health Checks)
+4. **Security**: Kapitel 22 Checklist durchgehen
+
+### AZ-900 Prüfungs-Tipps:
+```
+Prüfungsformat:
+- 40-60 Fragen
+- 60 Minuten Zeit
+- 700/1000 Punkte zum Bestehen
+- ~€100 Prüfungsgebühr
+
+Themengewichtung:
+- Cloud Concepts: 25-30%
+- Azure Architecture: 35-40%
+- Management & Governance: 30-35%
+
+Lernressourcen:
+→ Microsoft Learn (kostenlos!)
+→ Dieses Playbook 😉
+→ Azure Free Account zum Üben
+```
 
 Du hast das. Ship it! 🚀
