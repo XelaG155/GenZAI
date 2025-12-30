@@ -4,11 +4,17 @@ Alles was du brauchst um Cloud Computing zu verstehen und von "läuft auf meinem
 
 ---
 
+### Legende
+
+![AZ-900](https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-fundamentals-badge.svg) **AZ-900** = Dieses Kapitel ist relevant für die Microsoft Azure Fundamentals Zertifizierung
+
+---
+
 # TEIL 1: CLOUD COMPUTING GRUNDLAGEN
 
 ---
 
-## Kapitel 1: Was ist Cloud Computing?
+## Kapitel 1: Was ist Cloud Computing? ![AZ-900](https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-fundamentals-badge.svg)
 
 ### Die Simple Erklärung
 
@@ -80,7 +86,7 @@ Beispiel: Cloud-Server für 100€/Monat
 
 ---
 
-## Kapitel 2: Cloud Service-Modelle (IaaS, PaaS, SaaS)
+## Kapitel 2: Cloud Service-Modelle (IaaS, PaaS, SaaS) ![AZ-900](https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-fundamentals-badge.svg)
 
 ### Das Pizza-Modell 🍕
 
@@ -222,7 +228,7 @@ Physisches Datacenter     DU     Provider  Provider Provider
 
 ---
 
-## Kapitel 3: Cloud-Deployment-Modelle
+## Kapitel 3: Cloud-Deployment-Modelle ![AZ-900](https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-fundamentals-badge.svg)
 
 ### Public Cloud
 
@@ -339,7 +345,7 @@ AI-Projekte              → Public Cloud (99% der Fälle)
 
 ---
 
-## Kapitel 4: Virtualisierung Deep Dive
+## Kapitel 4: Virtualisierung Deep Dive ![AZ-900](https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-fundamentals-badge.svg)
 
 ### Was ist Virtualisierung?
 
@@ -502,7 +508,7 @@ Für AI-Projekte:
 
 ---
 
-## Kapitel 5: Cloud-Konzepte für Zuverlässigkeit
+## Kapitel 5: Cloud-Konzepte für Zuverlässigkeit ![AZ-900](https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-fundamentals-badge.svg)
 
 ### High Availability (HA)
 
@@ -626,7 +632,7 @@ Strategien:
 
 ---
 
-## Kapitel 6: Azure-Grundlagen (AZ-900)
+## Kapitel 6: Azure-Grundlagen ![AZ-900](https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-fundamentals-badge.svg)
 
 ### Azure Geographie
 
@@ -787,7 +793,7 @@ Prinzip: Least Privilege
 
 ---
 
-## Kapitel 7: Azure Governance & Compliance
+## Kapitel 7: Azure Governance & Compliance ![AZ-900](https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-fundamentals-badge.svg)
 
 ### Azure Policy
 
@@ -908,7 +914,7 @@ Azure Policy für Tags:
 
 ---
 
-## Kapitel 8: Azure Management Tools
+## Kapitel 8: Azure Management Tools ![AZ-900](https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-fundamentals-badge.svg)
 
 ### Azure Portal
 
@@ -1085,7 +1091,7 @@ az deployment group create \
 
 ---
 
-## Kapitel 9: Azure Monitoring
+## Kapitel 9: Azure Monitoring ![AZ-900](https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-fundamentals-badge.svg)
 
 ### Azure Monitor
 
@@ -1200,7 +1206,7 @@ Was du siehst:
 
 ---
 
-## Kapitel 10: Azure Security (Defense in Depth)
+## Kapitel 10: Azure Security (Defense in Depth) ![AZ-900](https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-fundamentals-badge.svg)
 
 ### Defense in Depth
 
@@ -1352,7 +1358,7 @@ az keyvault secret show \
 
 ---
 
-## Kapitel 11: Azure Networking (Erweitert)
+## Kapitel 11: Azure Networking (Erweitert) ![AZ-900](https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-fundamentals-badge.svg)
 
 ### Virtual Network (VNet) Deep Dive
 
@@ -1510,7 +1516,7 @@ Layer 7 (HTTP/S)  → Application Gateway
 
 ---
 
-## Kapitel 12: Azure Solutions
+## Kapitel 12: Azure Solutions ![AZ-900](https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-fundamentals-badge.svg)
 
 ### Azure IoT Hub
 
@@ -1619,7 +1625,7 @@ Decision:
 
 ---
 
-## Kapitel 13: SLA, Support & Lifecycle
+## Kapitel 13: SLA, Support & Lifecycle ![AZ-900](https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-fundamentals-badge.svg)
 
 ### Service Level Agreements (SLA)
 
@@ -1713,7 +1719,7 @@ Für Production: Mindestens Standard
 
 ---
 
-## Kapitel 14: Azure Kosten-Tools
+## Kapitel 14: Azure Kosten-Tools ![AZ-900](https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-fundamentals-badge.svg)
 
 ### Azure Pricing Calculator
 
