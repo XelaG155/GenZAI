@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AZ-900 Prüfungsvorbereitung - GenZAI</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    .az-hero {
+      text-align: center;
+      padding: 4rem 0;
+    }
+    .az-badge {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 1.5rem;
+    }
+    .az-title {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .az-subtitle {
+      color: var(--muted);
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+    .exam-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: var(--card);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    .exam-info-item {
+      text-align: center;
+    }
+    .exam-info-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .exam-info-label {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .toc-section {
+      margin: 3rem 0;
+    }
+    .toc-section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .toc-section h2 .weight {
+      font-size: 0.85rem;
+      background: var(--accent);
+      color: var(--bg);
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .toc-list {
+      display: grid;
+      gap: 0.75rem;
+    }
+    .toc-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      background: var(--card);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.2s ease;
+    }
+    .toc-item:hover {
+      border-color: var(--accent);
+      transform: translateX(4px);
+    }
+    .toc-number {
+      font-size: 0.85rem;
+      color: var(--muted);
+      min-width: 60px;
+    }
+    .toc-title {
+      flex: 1;
+      font-weight: 500;
+    }
+    .toc-arrow {
+      color: var(--accent);
+      font-size: 1.2rem;
+    }
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    .tip-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    .tip-card h3 {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .tip-card ul {
+      margin: 0;
+      padding-left: 1.25rem;
+    }
+    .tip-card li {
+      margin-bottom: 0.5rem;
+      color: var(--muted);
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent);
+      text-decoration: none;
+      margin-bottom: 2rem;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 1rem 0;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <nav id="mainNav">
+    <div class="container nav-inner">
+      <div class="logo">GenZAI <span class="logo-sub">AZ-900 Prep</span></div>
+      <ul>
+        <li><a href="index.html">Zurück zum Kurs</a></li>
+        <li><a href="#cloud-concepts">Cloud Basics</a></li>
+        <li><a href="#azure-services">Azure Services</a></li>
+        <li><a href="#management">Management</a></li>
+        <li><a href="#tips">Prüfungs-Tipps</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <a href="index.html" class="back-link">← Zurück zum Hauptkurs</a>
+
+    <div class="az-hero">
+      <img src="https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-fundamentals-badge.svg" alt="AZ-900 Badge" class="az-badge" />
+      <h1 class="az-title">Microsoft Azure Fundamentals</h1>
+      <p class="az-subtitle">Deine komplette AZ-900 Prüfungsvorbereitung mit GenZAI</p>
+
+      <div class="exam-info">
+        <div class="exam-info-item">
+          <div class="exam-info-value">40-60</div>
+          <div class="exam-info-label">Fragen</div>
+        </div>
+        <div class="exam-info-item">
+          <div class="exam-info-value">60</div>
+          <div class="exam-info-label">Minuten</div>
+        </div>
+        <div class="exam-info-item">
+          <div class="exam-info-value">700</div>
+          <div class="exam-info-label">Punkte zum Bestehen</div>
+        </div>
+        <div class="exam-info-item">
+          <div class="exam-info-value">~100€</div>
+          <div class="exam-info-label">Prüfungsgebühr</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cloud Concepts Section -->
+    <div class="toc-section" id="cloud-concepts">
+      <h2>
+        <span>☁️ Cloud Concepts</span>
+        <span class="weight">25-30%</span>
+      </h2>
+      <p style="color: var(--muted); margin-bottom: 1rem;">Grundlegende Cloud-Konzepte und warum Cloud Computing wichtig ist</p>
+
+      <div class="toc-list">
+        <a href="assets/content/infra-playbook.md#kapitel-1-was-ist-cloud-computing-" class="toc-item">
+          <span class="toc-number">Kapitel 1</span>
+          <span class="toc-title">Was ist Cloud Computing?</span>
+          <span class="toc-arrow">→</span>
+        </a>
+        <a href="assets/content/infra-playbook.md#kapitel-2-cloud-service-modelle-iaas-paas-saas-" class="toc-item">
+          <span class="toc-number">Kapitel 2</span>
+          <span class="toc-title">Cloud Service-Modelle (IaaS, PaaS, SaaS)</span>
+          <span class="toc-arrow">→</span>
+        </a>
+        <a href="assets/content/infra-playbook.md#kapitel-3-cloud-deployment-modelle-" class="toc-item">
+          <span class="toc-number">Kapitel 3</span>
+          <span class="toc-title">Cloud-Deployment-Modelle (Public, Private, Hybrid)</span>
+          <span class="toc-arrow">→</span>
+        </a>
+        <a href="assets/content/infra-playbook.md#kapitel-4-virtualisierung-deep-dive-" class="toc-item">
+          <span class="toc-number">Kapitel 4</span>
+          <span class="toc-title">Virtualisierung (VMs, Hypervisor, Container)</span>
+          <span class="toc-arrow">→</span>
+        </a>
+        <a href="assets/content/infra-playbook.md#kapitel-5-cloud-konzepte-f%C3%BCr-zuverl%C3%A4ssigkeit-" class="toc-item">
+          <span class="toc-number">Kapitel 5</span>
+          <span class="toc-title">HA, Skalierbarkeit, Elastizität, Disaster Recovery</span>
+          <span class="toc-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Azure Architecture & Services Section -->
+    <div class="toc-section" id="azure-services">
+      <h2>
+        <span>🏗️ Azure Architecture & Services</span>
+        <span class="weight">35-40%</span>
+      </h2>
+      <p style="color: var(--muted); margin-bottom: 1rem;">Azure-Dienste für Compute, Netzwerk, Storage und mehr</p>
+
+      <div class="toc-list">
+        <a href="assets/content/infra-playbook.md#kapitel-6-azure-grundlagen-" class="toc-item">
+          <span class="toc-number">Kapitel 6</span>
+          <span class="toc-title">Azure-Grundlagen (Regionen, Zonen, Ressourcen)</span>
+          <span class="toc-arrow">→</span>
+        </a>
+        <a href="assets/content/infra-playbook.md#kapitel-10-azure-security-defense-in-depth-" class="toc-item">
+          <span class="toc-number">Kapitel 10</span>
+          <span class="toc-title">Azure Security (Defense in Depth, Zero Trust)</span>
+          <span class="toc-arrow">→</span>
+        </a>
+        <a href="assets/content/infra-playbook.md#kapitel-11-azure-networking-erweitert-" class="toc-item">
+          <span class="toc-number">Kapitel 11</span>
+          <span class="toc-title">Azure Networking (VNet, VPN, ExpressRoute, Firewall)</span>
+          <span class="toc-arrow">→</span>
+        </a>
+        <a href="assets/content/infra-playbook.md#kapitel-12-azure-solutions-" class="toc-item">
+          <span class="toc-number">Kapitel 12</span>
+          <span class="toc-title">Azure Solutions (IoT, Synapse, DevOps, AI)</span>
+          <span class="toc-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Management & Governance Section -->
+    <div class="toc-section" id="management">
+      <h2>
+        <span>⚙️ Management & Governance</span>
+        <span class="weight">30-35%</span>
+      </h2>
+      <p style="color: var(--muted); margin-bottom: 1rem;">Tools, Governance, Kosten und Compliance in Azure</p>
+
+      <div class="toc-list">
+        <a href="assets/content/infra-playbook.md#kapitel-7-azure-governance--compliance-" class="toc-item">
+          <span class="toc-number">Kapitel 7</span>
+          <span class="toc-title">Azure Governance (Policy, Blueprints, Locks, Tags)</span>
+          <span class="toc-arrow">→</span>
+        </a>
+        <a href="assets/content/infra-playbook.md#kapitel-8-azure-management-tools-" class="toc-item">
+          <span class="toc-number">Kapitel 8</span>
+          <span class="toc-title">Management Tools (Portal, CLI, ARM, Bicep)</span>
+          <span class="toc-arrow">→</span>
+        </a>
+        <a href="assets/content/infra-playbook.md#kapitel-9-azure-monitoring-" class="toc-item">
+          <span class="toc-number">Kapitel 9</span>
+          <span class="toc-title">Azure Monitoring (Monitor, Advisor, Service Health)</span>
+          <span class="toc-arrow">→</span>
+        </a>
+        <a href="assets/content/infra-playbook.md#kapitel-13-sla-support--lifecycle-" class="toc-item">
+          <span class="toc-number">Kapitel 13</span>
+          <span class="toc-title">SLA, Support Plans & Service Lifecycle</span>
+          <span class="toc-arrow">→</span>
+        </a>
+        <a href="assets/content/infra-playbook.md#kapitel-14-azure-kosten-tools-" class="toc-item">
+          <span class="toc-number">Kapitel 14</span>
+          <span class="toc-title">Azure Kosten-Tools (TCO, Pricing Calculator)</span>
+          <span class="toc-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Tips Section -->
+    <div class="toc-section" id="tips">
+      <h2>💡 Prüfungs-Tipps</h2>
+
+      <div class="tips-grid">
+        <div class="tip-card">
+          <h3>📚 Lernressourcen</h3>
+          <ul>
+            <li><a href="https://learn.microsoft.com/en-us/training/paths/az-900-describe-cloud-concepts/" target="_blank">Microsoft Learn (kostenlos!)</a></li>
+            <li>Dieses GenZAI Playbook</li>
+            <li><a href="https://azure.microsoft.com/en-us/free/" target="_blank">Azure Free Account</a> zum Üben</li>
+            <li>Practice Tests auf Microsoft Learn</li>
+          </ul>
+        </div>
+
+        <div class="tip-card">
+          <h3>🎯 Fokus-Themen</h3>
+          <ul>
+            <li>CapEx vs OpEx verstehen</li>
+            <li>IaaS/PaaS/SaaS unterscheiden</li>
+            <li>Azure Regionen & Availability Zones</li>
+            <li>RBAC & Governance Konzepte</li>
+            <li>SLA Berechnungen</li>
+          </ul>
+        </div>
+
+        <div class="tip-card">
+          <h3>⚡ Am Prüfungstag</h3>
+          <ul>
+            <li>Fragen vollständig lesen</li>
+            <li>Auf "most" und "least" achten</li>
+            <li>Erste Antwort oft richtig</li>
+            <li>Alle Fragen beantworten</li>
+            <li>Zeit für Review einplanen</li>
+          </ul>
+        </div>
+
+        <div class="tip-card">
+          <h3>🔗 Wichtige Links</h3>
+          <ul>
+            <li><a href="https://learn.microsoft.com/en-us/certifications/exams/az-900/" target="_blank">Offizielle Prüfungsseite</a></li>
+            <li><a href="https://portal.azure.com" target="_blank">Azure Portal</a></li>
+            <li><a href="https://azure.microsoft.com/en-us/pricing/calculator/" target="_blank">Pricing Calculator</a></li>
+            <li><a href="https://azure.microsoft.com/en-us/pricing/tco/calculator/" target="_blank">TCO Calculator</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="card highlight-card" style="text-align: center; margin: 3rem 0;">
+      <h3>Ready für die Prüfung?</h3>
+      <p>Lerne alle 14 Kapitel im Infra-Playbook und du bist bestens vorbereitet!</p>
+      <a href="assets/content/infra-playbook.md" class="cta" style="display: inline-block; margin-top: 1rem;">
+        📖 Zum kompletten Playbook
+      </a>
+    </div>
+
+  </div>
+
+  <footer style="text-align: center; padding: 2rem; color: var(--muted);">
+    <p>GenZAI · AZ-900 Prep · Made with 💜 for Gen Z</p>
+  </footer>
+</body>
+</html>
