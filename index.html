@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GenZAI Course</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <div class="logo">GenZAI · AI Power Course</div>
+      <ul>
+        <li><a href="#modules">Kurs</a></li>
+        <li><a href="#infra">Infra</a></li>
+        <li><a href="#project">Projekt A–Z</a></li>
+        <li><a href="#usecases">Use Cases</a></li>
+        <li><a href="#exercises">Übungen</a></li>
+        <li><a href="#docs">Slides & Docs</a></li>
+        <li><a href="#resources">Ressourcen</a></li>
+      </ul>
+      <button class="cta" onclick="document.getElementById('project').scrollIntoView({behavior: 'smooth'})">Starte dein Build</button>
+    </div>
+  </nav>
+
+  <header class="hero container">
+    <div class="eyebrow">Built for Gen Z · Zero-Fluff, All Signal</div>
+    <h1>AI wie ein Creator: Von "Idea Drop" zu "Shipping" in Wochen.</h1>
+    <p class="lede">Hol dir die Roadmap, um AI in deiner Sprache zu bauen: Vision, Product, Infra, Launch. Mit Snackable Lernkarten, Hands-on Labs, Practice Sheets und einem echten Business Case als Blaupause.</p>
+    <div class="badge-row">
+      <span class="badge">LLMs + Vision + Agents</span>
+      <span class="badge">MVP in 4 Wochen</span>
+      <span class="badge">Infra: VMs, GPU, Deploy</span>
+      <span class="badge">Marketing Playbook inkl.</span>
+      <span class="badge">Übungen & Lösungen</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="section-title" id="modules">
+      <span class="tag">Curriculum</span>
+      <h2>Modul-Stack</h2>
+    </div>
+    <div class="grid cols-3">
+      <div class="card">
+        <h3>1) Foundations: AI als Skill</h3>
+        <p>Understand the vibe: Warum LLMs hype sind, welche Modelle (GPT-4o, Claude 3.5, Llama 3) was können, und wie Prompts zur "Programmiersprache" werden.</p>
+        <ul class="list">
+          <li>Thinking in systems: Inputs → Reasoning → Outputs.</li>
+          <li>Prompt Patterns: Chain-of-Thought, Few-Shot, Guardrails.</li>
+          <li>Ethik & Safety: Bias, Halluzinationen, Datenschutz.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>2) Build Lab: Von Prompt zu Produkt</h3>
+        <p>Hands-on Sprints mit Checklisten, Copy/Paste Snippets und Quick Tests.</p>
+        <ul class="list">
+          <li>Rapid Prototyping: Notebooks (Colab), VS Code + venv.</li>
+          <li>APIs & SDKs: OpenAI, Anthropic, Hugging Face, Replicate.</li>
+          <li>Data Layer: Vektordatenbanken (Chroma, Pinecone), RAG 101.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>3) Infra Ready</h3>
+        <p>Run it anywhere: von VM bis Serverless. Kosten im Blick, GPU only wenn nötig.</p>
+        <ul class="list">
+          <li>VMs explained + Cheatsheet.</li>
+          <li>Dockerize it: Images, Ports, Secrets.</li>
+          <li>Observability: Logs, Metrics, Traces light.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>4) AI Patterns</h3>
+        <p>Reusable Blöcke für Chatbots, Recommender, Vision Pipelines.</p>
+        <ul class="list">
+          <li>Retrieval-Augmented Generation (RAG) in 5 Schritten.</li>
+          <li>Tools & Agents: Funktionen sicher freischalten.</li>
+          <li>Multimodal: Text ↔ Bild ↔ Audio Pipelines.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>5) Biz & Launch</h3>
+        <p>Monetize den Build: Pricing, GTM, Metriken und Pitch.</p>
+        <ul class="list">
+          <li>Value prop in 1 Minute: Pain, Audience, Wow-Moment.</li>
+          <li>Marketing Stack: Landing, Email, Social, Live-Demo.</li>
+          <li>KPIs: Activation, Retention, CAC/LTV, Feedback Loops.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>6) Futureproof</h3>
+        <p>Wie du up-to-date bleibst und Modelle sicher wechselst.</p>
+        <ul class="list">
+          <li>Abstraktion: Modell-Switch in Minutes.</li>
+          <li>Data Flywheel: User-Feedback → Verbesserte Prompts.</li>
+          <li>AI Policy: Do's & Don'ts für Teams.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-title">
+      <span class="tag">Curriculum+</span>
+      <h2>Deep Dives & Tracks</h2>
+    </div>
+    <div class="grid cols-3">
+      <div class="card">
+        <h3>Data & RAG Track</h3>
+        <ul class="list">
+          <li>Chunking Strategien (Token 256/512/1024) mit Overlap.</li>
+          <li>Reranking (bge-m3) vs. Hybrid Search.</li>
+          <li>Eval: Precision/Recall, Quellenquote, Latenzbudget.</li>
+        </ul>
+        <div class="badge-row">
+          <span class="badge">Dedup & Quality</span>
+          <span class="badge">Caching</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Agents & Tools Track</h3>
+        <ul class="list">
+          <li>Tool-Design mit JSON-Schema + Validation.</li>
+          <li>Loop Control: Steps, Timeouts, Fallback.</li>
+          <li>Replay & Logging für Debugging.</li>
+        </ul>
+        <div class="badge-row">
+          <span class="badge">Safety Filters</span>
+          <span class="badge">Observability</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Biz & Growth Track</h3>
+        <ul class="list">
+          <li>Pricing Experimente (Free/Pro/Team).</li>
+          <li>Activation Journey: 60s zur ersten Antwort.</li>
+          <li>Retention: Changelog, Referral, Support.</li>
+        </ul>
+        <div class="badge-row">
+          <span class="badge">Unit Economics</span>
+          <span class="badge">GTM</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">
+      <span class="tag">Sprints</span>
+      <h2>4-Wochen Launch Plan</h2>
+    </div>
+    <div class="card">
+      <div class="timeline">
+        <div class="step">
+          <h3>Week 1 · Idea + Research</h3>
+          <p>Validiere Problem & Persona, sammle 10 Zitate aus echten Chats/Foren.</p>
+          <div class="pill-row">
+            <span class="pill">Interview Script</span>
+            <span class="pill">Competitor Scan</span>
+          </div>
+        </div>
+        <div class="step">
+          <h3>Week 2 · Prototype</h3>
+          <p>Figma + Prompt + 1 API-Route. Schreibe erstes E2E-Doc.</p>
+          <div class="pill-row">
+            <span class="pill">RAG MVP</span>
+            <span class="pill">Telemetry</span>
+          </div>
+        </div>
+        <div class="step">
+          <h3>Week 3 · Build</h3>
+          <p>Refactor, Dockerize, Logging & Guardrails. Nutzer testet 20 Prompts.</p>
+          <div class="pill-row">
+            <span class="pill">Docker</span>
+            <span class="pill">Rate Limit</span>
+          </div>
+        </div>
+        <div class="step">
+          <h3>Week 4 · Launch</h3>
+          <p>Landing, Demo-Video, Pricing, Onboarding. Sammle KPIs.</p>
+          <div class="pill-row">
+            <span class="pill">Live Demo</span>
+            <span class="pill">Beta Codes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title" id="infra">
+      <span class="tag">Infra</span>
+      <h2>Infrastruktur für Gen Z Builders</h2>
+    </div>
+    <div class="grid cols-2">
+      <div class="card">
+        <h3>Was ist eine VM?</h3>
+        <p>Virtuelle Maschine = Computer-in-the-Cloud. Du mietet CPU/GPU, installierst dein Stack und shipst. Vorteil: volle Kontrolle, Nachteil: du managest Patches & Kosten.</p>
+        <ul class="list">
+          <li><strong>CPU-VM</strong>: günstig, gut für API/RAG ohne heavy Modelle.</li>
+          <li><strong>GPU-VM</strong>: wenn du lokal inferencen willst (Llama 3, Stable Diffusion).</li>
+          <li><strong>Serverless</strong>: Functions für schlanke Tasks, kein eigener Server.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Setup in 20 Minuten</h3>
+        <ol class="list">
+          <li>Provider wählen (AWS, GCP, Azure oder Hetzner/Scaleway für Budget).</li>
+          <li>Ubuntu-VM starten (>= 4 vCPU, 16GB RAM für RAG; GPU: A10/A100/4090 je nach Budget).</li>
+          <li>SSH + Updates: <code>sudo apt update && sudo apt upgrade -y</code>.</li>
+          <li>Docker installieren: <code>curl -fsSL https://get.docker.com | sh</code>; <code>sudo usermod -aG docker $USER</code>.</li>
+          <li>Compose your stack: API (FastAPI), Vector DB (Chroma), Ingress (NGINX/Traefik).</li>
+          <li>Secrets via .env / Cloud Secret Manager, nie im Repo.</li>
+          <li>Monitoring quick: <code>docker logs</code>, Healthchecks, UptimeRobot.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Install AI Tooling</h3>
+        <ul class="list">
+          <li>Python 3.11 + venv: <code>python3 -m venv .venv && source .venv/bin/activate</code>.</li>
+          <li>Core libs: <code>pip install fastapi uvicorn openai anthropic langchain chromadb tiktoken</code>.</li>
+          <li>GPU? CUDA + <code>pip install torch --index-url https://download.pytorch.org/whl/cu121</code>.</li>
+          <li>Model Hosting: Ollama, vLLM, TGI oder Hugging Face Inference Endpoints.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Security & Costs</h3>
+        <ul class="list">
+          <li>SSH Keys only, Security Groups nur 80/443/22.</li>
+          <li>API Keys in Secrets, nicht in Frontend bundeln.</li>
+          <li>Autosleep für Dev-VMs, Budgets setzen.</li>
+          <li>Logs anonymisieren, PII minimieren.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-title" id="project">
+      <span class="tag">Blueprint</span>
+      <h2>Projekt A–Z: Von Idee bis Launch</h2>
+    </div>
+    <div class="card">
+      <div class="timeline">
+        <div class="step">
+          <h3>Ideation</h3>
+          <p>Pick a niche: Creator Tools, Uni-Assist, Local Biz Ops, Health & Wellness (non-diagnostic), Gaming Mods, Sustainability.</p>
+          <div class="badge-row">
+            <span class="badge">Pain > Tech</span>
+            <span class="badge">One persona</span>
+          </div>
+        </div>
+        <div class="step">
+          <h3>Research</h3>
+          <p>Reddit/Discord/HN scannen. 10 Interviews, Screenshots sammeln. Bauen = Antworten auf echte DMs.</p>
+          <div class="badge-row">
+            <span class="badge">Problem/Solution Fit</span>
+            <span class="badge">Competitor Matrix</span>
+          </div>
+        </div>
+        <div class="step">
+          <h3>Prototype</h3>
+          <p>No-Code first: Figma Mock + Prompt. Dann minimaler Backend: FastAPI Endpoint, 1-2 Routen, Logging.</p>
+          <div class="badge-row">
+            <span class="badge">RAG MVP</span>
+            <span class="badge">Feedback Loop</span>
+          </div>
+        </div>
+        <div class="step">
+          <h3>Build</h3>
+          <p>Code sauber: .env, linters, telemetry. Add analytics: page views, success rate, latency, hallucinations.</p>
+          <div class="badge-row">
+            <span class="badge">Ship weekly</span>
+            <span class="badge">Measure</span>
+          </div>
+        </div>
+        <div class="step">
+          <h3>Launch</h3>
+          <p>Landing + Demo Video + "Tap-to-Try". Beta waitlist, 1 pricing (monthly), Student discount.</p>
+          <div class="badge-row">
+            <span class="badge">Live demo</span>
+            <span class="badge">Simple pricing</span>
+          </div>
+        </div>
+        <div class="step">
+          <h3>Growth</h3>
+          <p>Content loops: TikTok, Insta Reels, LinkedIn Carousels. Community: Discord oder Telegram. Weekly changelog.</p>
+          <div class="badge-row">
+            <span class="badge">Referral</span>
+            <span class="badge">Support ops</span>
+          </div>
+        </div>
+      </div>
+      <div class="callout">Bonus: Füge einen <strong>QA-Track</strong> hinzu: 10 Fragen definieren, jede neue Version gegen Antworten testen (Regression Tests für Prompts).</div>
+    </div>
+
+    <div class="section-title" id="usecases">
+      <span class="tag">Use Cases</span>
+      <h2>Ideas zum Nachbauen</h2>
+    </div>
+    <div class="grid cols-3">
+      <div class="card">
+        <h3>Campus Copilot</h3>
+        <p>Uni-Skripte + Vorlesungsfolien in einen Vektor-Store, Chatbot mit Quellenangabe. Add-On: Zusammenfassungen als Sprachnachricht.</p>
+        <ul class="list">
+          <li>Stack: FastAPI, Chroma, GPT-4o, Whisper.</li>
+          <li>Hook: "Frag die Vorlesung wie einen Tutor".</li>
+          <li>Monetize: Semester-Pass, Team-Lizenz für Fachschaften.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Creator Content Lab</h3>
+        <p>Ideen → Skript → Shotlist → Hooks. Optional: Bildgenerator für Thumbnails.</p>
+        <ul class="list">
+          <li>Stack: Next.js, OpenAI API, Replicate (SDXL) für Thumbs.</li>
+          <li>Growth: TikTok Live-Build, Referral Codes für Creator-Friends.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Local Biz Ops</h3>
+        <p>AI-Sekretariat für kleine Shops: Termine, FAQ, Google Reviews Reply.</p>
+        <ul class="list">
+          <li>Stack: Twilio/WhatsApp, GPT-4o mini, Supabase.</li>
+          <li>Value: 24/7 Antworten, Upsell mit Analytics Dashboard.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Job Hunt Booster</h3>
+        <p>Analyse CV + JD, generiert Anschreiben, simuliert Interview-Fragen.</p>
+        <ul class="list">
+          <li>Stack: Claude 3.5, Pinecone, Streamlit Frontend.</li>
+          <li>Hook: "Du bewirbst dich wie ein Startup, nicht wie ein PDF".</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Eco Impact Radar</h3>
+        <p>Scan nach nachhaltigen Produkten, bewertet CO₂, gibt Alternativen.</p>
+        <ul class="list">
+          <li>Stack: Browserless Scraper + LLM Judge + Supabase.</li>
+          <li>Revenue: Affiliate Links, B2B Reports.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Event Buddy</h3>
+        <p>Plant Meetup/Party: Budget, Playlist, Einkaufszettel, Promo-Posts.</p>
+        <ul class="list">
+          <li>Stack: Llama 3 via Ollama, Vercel Edge Functions.</li>
+          <li>Community: Insta-Takeover + Templates als Freebie.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-title">
+      <span class="tag">Labs</span>
+      <h2>Hands-on Experiments</h2>
+    </div>
+    <div class="grid cols-2">
+      <div class="card">
+        <h3>Lab 1: RAG in 30 Minuten</h3>
+        <p>Clone Template → Lade 20 PDFs → Chat mit Quellen. Fokus auf Guardrails.</p>
+        <ol class="list">
+          <li>Repo clonen, <code>python -m venv .venv && source .venv/bin/activate</code>.</li>
+          <li><code>pip install -r requirements.txt</code> (FastAPI, Chroma, openai).</li>
+          <li>Docs einlesen, Embeddings, API-Key setzen, run.</li>
+          <li>Eval: 10 Fragen, prüfe Quellenquote & Halluzinationen.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Lab 2: Vision Bot</h3>
+        <p>Upload ein Bild → Bot erkennt & beschreibt → gibt TikTok-Style Caption.</p>
+        <ol class="list">
+          <li>Frontend: minimaler Upload (HTML/JS), Backend: FastAPI Route.</li>
+          <li>Model: GPT-4o oder Llama 3 Vision via API.</li>
+          <li>Safety: Block NSFW, size limits, rate limit.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Lab 3: Agent mit Tools</h3>
+        <p>LLM ruft Wetter-API & Kalender auf. Fokus: Keine Endlosschleifen, gute Observability.</p>
+        <ol class="list">
+          <li>Tools definieren (get_weather, create_event), JSON-Schema Responses.</li>
+          <li>Loop limit & fallback Antworten.</li>
+          <li>Log jede Action, analysiere häufige Fehler.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Lab 4: Marketing Autopilot</h3>
+        <p>Input: Produkt-Name + Zielgruppe → Output: Hook, Post, CTA, Hashtags, E-Mail.</p>
+        <ol class="list">
+          <li>Prompt Template mit Tonalität (freundlich, klar, keine Buzzword-Flut).</li>
+          <li>A/B Variationen generieren, beste Option mit Heuristik wählen.</li>
+          <li>Export als CSV/Notion/Canva-Ready Copy.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="section-title" id="exercises">
+      <span class="tag">Practice</span>
+      <h2>Übungen + Lösungen</h2>
+    </div>
+    <div class="grid cols-3">
+      <div class="card">
+        <h3>Prompt Remix</h3>
+        <p>Du bekommst ein flat Prompt, mach daraus 3 Versionen: Safety, Speed, Depth. Teste mit 5 Fragen.</p>
+        <div class="label">Solution Idea</div>
+        <p class="code-block">- Schreibe System Prompt mit Stil.
+- Füge Beispiele (few-shot).
+- Nutze Parameter: temperature 0.3/0.7.
+- Miss Tokens & Latency.</p>
+      </div>
+      <div class="card">
+        <h3>RAG Guardrails</h3>
+        <p>Baue ein Filter, der nur antwortet, wenn Score > 0.2 und Quelle vorhanden.</p>
+        <div class="label">Solution Idea</div>
+        <p class="code-block">if score < 0.2:
+    return "Keine Quelle gefunden, frag genauer."
+else:
+    cite(context_snippet)</p>
+      </div>
+      <div class="card">
+        <h3>Agent Debug</h3>
+        <p>Agent hängt in Schleife. Füge Stop-Bedingung + Logging.</p>
+        <div class="label">Solution Idea</div>
+        <p class="code-block">for step in range(5):
+    action = planner()
+    log(action)
+    if action == "done": break
+return summary(logs)</p>
+      </div>
+      <div class="card">
+        <h3>Eval Sprint</h3>
+        <p>Erstelle 15 Testfragen: 5 Happy Path, 5 Edge, 5 Abuse. Automatisiere mit Skript.</p>
+        <div class="label">Solution Idea</div>
+        <p class="code-block">tests = load_yaml("tests.yaml")
+for t in tests:
+    resp = call_model(t.prompt)
+    grade(resp, t.expected)</p>
+      </div>
+      <div class="card">
+        <h3>UX Microcopy</h3>
+        <p>Schreibe 3 Tooltips und 2 Fehlermeldungen, Ton: klar + freundlich.</p>
+        <div class="label">Check</div>
+        <ul class="list">
+          <li>Keine Tech-Sprache.</li>
+          <li>Max 80 Zeichen.</li>
+          <li>Aktiver Call-to-Action.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Biz Math</h3>
+        <p>Rechne Unit Economics: API-Kosten, Hosting, Support pro User.</p>
+        <div class="label">Template</div>
+        <p class="code-block">ARPU = price_per_month
+Cost = (tokens*price_token) + infra + support
+Margin = ARPU - Cost</p>
+      </div>
+    </div>
+
+    <div class="section-title" id="resources">
+      <span class="tag">Kits</span>
+      <h2>Tooling & Ressourcen</h2>
+    </div>
+    <div class="card">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Need</th>
+            <th>Quick Picks</th>
+            <th>Warum es passt</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Code & Debug</td>
+            <td>VS Code + Copilot Chat, Cursor, GitHub Codespaces</td>
+            <td>Schnell starten, kollaborativ, keine lokale Hürde.</td>
+          </tr>
+          <tr>
+            <td>Model APIs</td>
+            <td>OpenAI, Anthropic, Google Gemini, Groq (speed)</td>
+            <td>Mix aus Qualität, Geschwindigkeit und Preis. Switch via Abstraktion.</td>
+          </tr>
+          <tr>
+            <td>Self-Hosting</td>
+            <td>Ollama (lokal), vLLM/TGI (Server), Modal (serverless GPU)</td>
+            <td>Volle Kontrolle, günstiger bei Volumen, Offline-Optionen.</td>
+          </tr>
+          <tr>
+            <td>Data Layer</td>
+            <td>Chroma, Pinecone, Weaviate, Qdrant, Supabase</td>
+            <td>RAG und Userdaten strukturiert halten.</td>
+          </tr>
+          <tr>
+            <td>Frontends</td>
+            <td>Next.js, Remix, FlutterFlow/Retool (MVP)</td>
+            <td>Schnell shippen, SEO-ready, mobile friendly.</td>
+          </tr>
+          <tr>
+            <td>Ops</td>
+            <td>Docker, Fly.io/Render/Vercel, Railway</td>
+            <td>Deploy ohne DevOps-Hölle, günstige Free-Tiers.</td>
+          </tr>
+          <tr>
+            <td>Monitoring</td>
+            <td>PostHog, Sentry, Prometheus + Grafana Lite</td>
+            <td>Track Errors, Usage, Latenz, Conversion.</td>
+          </tr>
+          <tr>
+            <td>Learning</td>
+            <td>Fast.ai, Coursera AI for Everyone, Papers with Code, Prompting Guides</td>
+            <td>Fundamentals + frische Ideen.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-title" id="docs">
+      <span class="tag">Docs</span>
+      <h2>Slides, Briefs & Deep Content</h2>
+    </div>
+    <div class="grid cols-3">
+      <div class="card">
+        <h3>Übungspaket</h3>
+        <p>10 detaillierte Übungen mit Lösungsideen, Bewertung und KPIs.</p>
+        <p><a href="assets/content/exercises.md" target="_blank">Öffnen (Markdown)</a></p>
+        <div class="badge-row">
+          <span class="badge">RAG</span>
+          <span class="badge">Agents</span>
+          <span class="badge">Biz Math</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Slides & Präsentationen</h3>
+        <p>Deck-Strukturen für AI 101, RAG, Agents, Infra, Growth & Safety.</p>
+        <p><a href="assets/content/slides.md" target="_blank">Öffnen (Markdown)</a></p>
+        <div class="badge-row">
+          <span class="badge">16:9</span>
+          <span class="badge">Visual-first</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Projekt-Briefs</h3>
+        <p>6 komplette Blaupausen mit Zielgruppe, USP, Architektur, Roadmap, KPIs.</p>
+        <p><a href="assets/content/project-briefs.md" target="_blank">Öffnen (Markdown)</a></p>
+        <div class="badge-row">
+          <span class="badge">Campus</span>
+          <span class="badge">Creator</span>
+          <span class="badge">Biz Ops</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Infra Playbook</h3>
+        <p>VM bis Prod: Docker, Compose, Monitoring, Security, Cost Control, DR.</p>
+        <p><a href="assets/content/infra-playbook.md" target="_blank">Öffnen (Markdown)</a></p>
+        <div class="badge-row">
+          <span class="badge">Deploy</span>
+          <span class="badge">Observability</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">
+      <span class="tag">Do & Don't</span>
+      <h2>Dos, Don'ts & Checks</h2>
+    </div>
+    <div class="grid cols-2">
+      <div class="card">
+        <h3>Do's</h3>
+        <ul class="list">
+          <li>Start mit echten User-Chats, nicht mit Annahmen.</li>
+          <li>Log jede Frage + Antwort, markiere Halluzinationen.</li>
+          <li>Baue Evaluate-Buttons ins UI ("hat dir geholfen?").</li>
+          <li>Schütze Keys, rate-limit, verwende Abuse-Filter.</li>
+          <li>Nutze Feature Flags: neue Prompts sicher testen.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Don'ts</h3>
+        <ul class="list">
+          <li>Niemals PII in Logs speichern.</li>
+          <li>Keine unendlichen Tool-Loops zulassen.</li>
+          <li>Kein Hardcoding von API-Keys im Frontend.</li>
+          <li>"One model fits all" glauben – teste Alternativen.</li>
+          <li>Latency vergessen: Caching und Streaming nutzen.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-title">
+      <span class="tag">Business</span>
+      <h2>Monetarisierung & Marketing</h2>
+    </div>
+    <div class="grid cols-2">
+      <div class="card">
+        <h3>Pricing</h3>
+        <ul class="list">
+          <li>Free Tier mit Limits (z.B. 20 Anfragen/Woche).</li>
+          <li>Pro: unbegrenzt, Custom Modelle, Team-Sharing.</li>
+          <li>Enterprise: SSO, eigene Modelle, SLAs.</li>
+          <li>Student Discount + Referral Codes.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Marketing Moves</h3>
+        <ul class="list">
+          <li>Short Video Demos (45s), before/after.</li>
+          <li>Build in public: wöchentlicher Ship-Thread.</li>
+          <li>Micro-Communities: Discord, Substack, LinkedIn Groups.</li>
+          <li>Partnerships mit Creators/Student Clubs.</li>
+          <li>SEO Basics: Landing mit klarer Query ("AI für &lt;Nische&gt;").</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-title">
+      <span class="tag">Checklists</span>
+      <h2>Ready-to-Ship Check</h2>
+    </div>
+    <div class="grid cols-3">
+      <div class="card">
+        <h3>Tech</h3>
+        <ul class="list">
+          <li>Env-Variablen gesetzt, keine Keys im Repo.</li>
+          <li>Tests für Kern-Endpoints.</li>
+          <li>Latency & Tokens pro Call gemessen.</li>
+          <li>Fallback-Modelle konfiguriert.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>UX</h3>
+        <ul class="list">
+          <li>Onboarding in 60s (kein Account? Magic Link).</li>
+          <li>Leitplanken: Beispiele, "Frag mich"-Buttons.</li>
+          <li>Erklärbare Antworten: Quellen & Zitate.</li>
+          <li>Dark Mode (Gen Z cares) und mobile responsive.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Growth</h3>
+        <ul class="list">
+          <li>Track Activation (erste erfolgreiche Antwort).</li>
+          <li>Feedback Channel (In-App, Discord).</li>
+          <li>Changelog Page + Update-Emails.</li>
+          <li>Referral Tracking aktiv.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-title">
+      <span class="tag">Glossar</span>
+      <h2>Flash Glossary</h2>
+    </div>
+    <div class="grid cols-3">
+      <div class="card">
+        <h3>VM</h3>
+        <p>Virtueller Computer in der Cloud. Du wählst CPU/GPU und installierst alles selbst.</p>
+      </div>
+      <div class="card">
+        <h3>RAG</h3>
+        <p>Retrieval-Augmented Generation: Modell + deine Daten. Weniger Halluzinationen.</p>
+      </div>
+      <div class="card">
+        <h3>Embedding</h3>
+        <p>Zahlen-Vektor, der Text-Bedeutung abbildet. Grundlage für Suche & Clustering.</p>
+      </div>
+      <div class="card">
+        <h3>vLLM</h3>
+        <p>High-Performance Inference Server, macht Self-Hosting von LLMs effizient.</p>
+      </div>
+      <div class="card">
+        <h3>Guardrails</h3>
+        <p>Regeln/Filter, die verhindern, dass das Modell Mist baut (NSFW, PII, Halluzinationen).</p>
+      </div>
+      <div class="card">
+        <h3>Latency Budget</h3>
+        <p>Max Zeit, die eine Antwort dauern darf. Entscheidet über UX.</p>
+      </div>
+    </div>
+
+    <div class="section-title">
+      <span class="tag">Download</span>
+      <h2>Sofort startklar</h2>
+    </div>
+    <div class="card">
+      <p>Forke das Repo, kopiere den Kurs und passe ihn an deine Crew an. Kombiniere ihn mit deinen eigenen Labs und Data Sets.</p>
+      <div class="badge-row">
+        <span class="badge">💬 Discord-ready</span>
+        <span class="badge">🛠️ Builder-Kit</span>
+        <span class="badge">🚀 Launch Plan</span>
+      </div>
+    </div>
+  </main>
+
+  <footer class="container">
+    <p>Made for Gen Z Builders · Bleib neugierig, ship schnell, learn faster.</p>
+  </footer>
+</body>
+</html>
