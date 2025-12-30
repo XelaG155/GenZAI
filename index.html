@@ -667,322 +667,167 @@ sudo systemctl restart sshd
     <!-- ============ PROJEKT A-Z ============ -->
     <div class="section-title" id="projekt-az">
       <span class="tag">Full Blueprint</span>
-      <h2>Projekt A-Z: Von der Idee zum Launch</h2>
+      <h2>Projekt A-Z: Von der Idee zur fertigen App</h2>
+    </div>
+
+    <div class="card">
+      <h3>Begriffe kurz erklärt</h3>
+      <div class="glossary-grid">
+        <div class="glossary-item">
+          <span class="glossary-term">MVP</span>
+          <span class="glossary-def">Die einfachste Version deiner App, die funktioniert</span>
+        </div>
+        <div class="glossary-item">
+          <span class="glossary-term">USP</span>
+          <span class="glossary-def">Was macht deine App besonders?</span>
+        </div>
+        <div class="glossary-item">
+          <span class="glossary-term">Persona</span>
+          <span class="glossary-def">Eine erfundene Beispiel-Person aus deiner Zielgruppe</span>
+        </div>
+        <div class="glossary-item">
+          <span class="glossary-term">Deployment</span>
+          <span class="glossary-def">Deine App ins Internet bringen</span>
+        </div>
+      </div>
     </div>
 
     <div class="card highlight-card">
-      <h3>Das Beispiel-Projekt: "StudyBuddy AI"</h3>
-      <p>Wir bauen einen <strong>AI-Lernassistenten</strong>, der Uni-Skripte versteht und Fragen beantwortet. Komplett durchgespielt – von "ich hab eine Idee" bis "Leute zahlen dafür".</p>
-      <div class="badge-row">
-        <span class="badge">RAG-based</span>
-        <span class="badge">PDF Upload</span>
-        <span class="badge">Chat Interface</span>
-        <span class="badge">Quellenangaben</span>
-      </div>
+      <h3>Unser Beispiel: StudyBuddy AI</h3>
+      <p>Eine App, die deine Schulbücher als PDF nimmt und deine Fragen beantwortet.</p>
+      <p style="color: var(--muted); font-size: 14px; margin-top: 8px;">Beispiel: "Wann war die Französische Revolution?" → "1789-1799, Seite 47"</p>
     </div>
 
     <div class="projekt-timeline">
+      <!-- WOCHE 1 -->
       <div class="projekt-phase">
         <div class="phase-header">
           <span class="phase-week">Woche 1</span>
-          <h3>💡 Ideation & Research</h3>
+          <h3>💡 Idee testen</h3>
         </div>
         <div class="phase-content">
-          <div class="phase-goals">
-            <h4>Ziele</h4>
-            <ul class="list">
-              <li>Problem validieren: Brauchen Leute das wirklich?</li>
-              <li>Zielgruppe definieren</li>
-              <li>Konkurrenz checken</li>
-              <li>MVP-Scope festlegen</li>
-            </ul>
-          </div>
-          <div class="phase-actions">
-            <h4>Actions</h4>
-            <div class="action-list">
-              <div class="action">
-                <span class="action-type">Research</span>
-                <p>5-10 Studis fragen: "Wie lernst du für Klausuren? Was nervt?"</p>
-              </div>
-              <div class="action">
-                <span class="action-type">Research</span>
-                <p>Reddit/Discord durchsuchen: r/UniDE, Fachschafts-Server</p>
-              </div>
-              <div class="action">
-                <span class="action-type">Analysis</span>
-                <p>Konkurrenz: ChatPDF, Quizlet, Anki. Was fehlt denen?</p>
-              </div>
-              <div class="action">
-                <span class="action-type">Decision</span>
-                <p>MVP = PDF Upload + Chat mit Quellenangabe. Mehr nicht.</p>
-              </div>
-            </div>
-          </div>
+          <h4>To-Do:</h4>
+          <ul class="list">
+            <li>Frag 5-10 Freunde: "Wie lernst du? Was nervt?"</li>
+            <li>Check was es schon gibt (ChatPDF, Quizlet...)</li>
+            <li>Entscheide: Was baust du ZUERST?</li>
+          </ul>
           <div class="phase-output">
-            <h4>Output</h4>
-            <ul class="list">
-              <li>Problem Statement: "Studis haben keine Zeit, 500 Seiten Skript zu lesen. Sie brauchen schnelle, zitierbare Antworten."</li>
-              <li>Persona: Lisa, 22, BWL-Studentin, lernt am Wochenende vor der Klausur</li>
-              <li>USP: "Frag dein Skript, bekomm Antwort mit Seitenzahl"</li>
-            </ul>
+            <h4>Ergebnis:</h4>
+            <p><strong>Problem:</strong> "Schüler haben keine Zeit, alles zu lesen"</p>
+            <p><strong>Lösung:</strong> "Frag dein Buch, bekomm Antwort mit Seitenzahl"</p>
           </div>
         </div>
       </div>
 
+      <!-- WOCHE 2 -->
       <div class="projekt-phase">
         <div class="phase-header">
           <span class="phase-week">Woche 2</span>
           <h3>🛠️ Prototyp bauen</h3>
         </div>
         <div class="phase-content">
-          <div class="phase-goals">
-            <h4>Ziele</h4>
-            <ul class="list">
-              <li>Funktionierender RAG-Prototype</li>
-              <li>Basic UI</li>
-              <li>Erste Tests mit echten Nutzern</li>
-            </ul>
+          <h4>To-Do:</h4>
+          <ul class="list">
+            <li>PDF-Upload bauen</li>
+            <li>Frage-Antwort System einbauen</li>
+            <li>3-5 Freunde testen lassen</li>
+          </ul>
+          <h4 style="margin-top: 16px;">Tech-Stack:</h4>
+          <div class="tech-stack">
+            <span class="tech-item">Python</span>
+            <span class="tech-item">FastAPI</span>
+            <span class="tech-item">OpenAI API</span>
+            <span class="tech-item">ChromaDB</span>
           </div>
-          <div class="phase-actions">
-            <h4>Tech Stack</h4>
-            <div class="tech-stack">
-              <span class="tech-item">Python + FastAPI</span>
-              <span class="tech-item">ChromaDB</span>
-              <span class="tech-item">OpenAI API</span>
-              <span class="tech-item">Next.js Frontend</span>
-            </div>
-            <h4 class="mt-20">Code Snippets</h4>
-            <div class="code-block">
-# PDF zu Chunks verarbeiten
-from langchain.document_loaders import PyPDFLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-
-loader = PyPDFLoader("skript.pdf")
-pages = loader.load()
-
-splitter = RecursiveCharacterTextSplitter(
-    chunk_size=500,
-    chunk_overlap=50
-)
-chunks = splitter.split_documents(pages)
-</div>
-            <div class="code-block">
-# In Chroma speichern
-import chromadb
-from chromadb.utils import embedding_functions
-
-openai_ef = embedding_functions.OpenAIEmbeddingFunction(
-    api_key=os.getenv("OPENAI_API_KEY"),
-    model_name="text-embedding-3-small"
-)
-
-client = chromadb.Client()
-collection = client.create_collection(
-    name="study_docs",
-    embedding_function=openai_ef
-)
-
-for i, chunk in enumerate(chunks):
-    collection.add(
-        documents=[chunk.page_content],
-        metadatas=[{"page": chunk.metadata.get("page", 0)}],
-        ids=[f"chunk_{i}"]
-    )
-</div>
-          </div>
-          <div class="phase-output">
-            <h4>Output</h4>
-            <ul class="list">
-              <li>Working Prototype: PDF hochladen, Frage stellen, Antwort mit Quelle</li>
-              <li>5 Testnutzer haben es ausprobiert, Feedback gesammelt</li>
-            </ul>
-          </div>
+          <p style="color: var(--muted); font-size: 13px; margin-top: 8px;">Keine Panik - frag ChatGPT wie man die benutzt!</p>
         </div>
       </div>
 
+      <!-- WOCHE 3 -->
       <div class="projekt-phase">
         <div class="phase-header">
           <span class="phase-week">Woche 3</span>
-          <h3>⚡ Build & Polish</h3>
+          <h3>⚡ Online bringen</h3>
         </div>
         <div class="phase-content">
-          <div class="phase-goals">
-            <h4>Ziele</h4>
-            <ul class="list">
-              <li>Production-ready Code</li>
-              <li>Deployment auf Server</li>
-              <li>Error Handling, Rate Limits</li>
-              <li>Analytics einbauen</li>
-            </ul>
-          </div>
-          <div class="phase-actions">
-            <h4>Actions</h4>
-            <div class="action-list">
-              <div class="action">
-                <span class="action-type">Code</span>
-                <p>Dockerize, Environment Variables, Logging</p>
-              </div>
-              <div class="action">
-                <span class="action-type">Infra</span>
-                <p>Deploy auf Hetzner/Render, Domain + SSL</p>
-              </div>
-              <div class="action">
-                <span class="action-type">Safety</span>
-                <p>Rate Limiting, Input Validation, CORS</p>
-              </div>
-              <div class="action">
-                <span class="action-type">Analytics</span>
-                <p>PostHog/Plausible für Usage Tracking</p>
-              </div>
-            </div>
-          </div>
+          <h4>To-Do:</h4>
+          <ul class="list">
+            <li>Server mieten (Hetzner/Render, ~10€/Monat)</li>
+            <li>Domain kaufen (z.B. studybuddy.de, ~10€/Jahr)</li>
+            <li>App hochladen mit Docker</li>
+            <li>HTTPS aktivieren (grünes Schloss)</li>
+          </ul>
           <div class="phase-output">
-            <h4>Output</h4>
-            <ul class="list">
-              <li>studybuddy.ai live erreichbar</li>
-              <li>Kann 10 concurrent Users handlen</li>
-              <li>Wir sehen wer wann was fragt</li>
-            </ul>
+            <h4>Ergebnis:</h4>
+            <p>Eine echte URL, die du teilen kannst</p>
           </div>
         </div>
       </div>
 
+      <!-- WOCHE 4 -->
       <div class="projekt-phase">
         <div class="phase-header">
           <span class="phase-week">Woche 4</span>
-          <h3>🚀 Launch & Marketing</h3>
+          <h3>🚀 Teilen</h3>
         </div>
         <div class="phase-content">
-          <div class="phase-goals">
-            <h4>Ziele</h4>
-            <ul class="list">
-              <li>Öffentlicher Launch</li>
-              <li>Erste zahlende Nutzer</li>
-              <li>Feedback-Loop etablieren</li>
-            </ul>
-          </div>
-          <div class="phase-actions">
-            <h4>Marketing Channels</h4>
-            <div class="channel-grid">
-              <div class="channel">
-                <span class="channel-icon">📱</span>
-                <h5>TikTok/Reels</h5>
-                <p>45s Demo: "POV: Du fragst dein Skript statt es zu lesen"</p>
-              </div>
-              <div class="channel">
-                <span class="channel-icon">🐦</span>
-                <h5>Twitter/X</h5>
-                <p>Build in Public Thread, Tech Community</p>
-              </div>
-              <div class="channel">
-                <span class="channel-icon">💬</span>
-                <h5>Discord/Uni-Server</h5>
-                <p>Direkt in Fachschafts-Gruppen posten</p>
-              </div>
-              <div class="channel">
-                <span class="channel-icon">📧</span>
-                <h5>Waitlist</h5>
-                <p>Email sammeln für Updates</p>
-              </div>
-            </div>
-            <h4 class="mt-20">Pricing</h4>
-            <div class="pricing-table">
-              <div class="price-tier">
-                <h5>Free</h5>
-                <p class="price">0€</p>
-                <ul class="list small">
-                  <li>3 PDFs</li>
-                  <li>20 Fragen/Tag</li>
-                  <li>Werbung</li>
-                </ul>
-              </div>
-              <div class="price-tier featured">
-                <h5>Pro</h5>
-                <p class="price">4,99€/Monat</p>
-                <ul class="list small">
-                  <li>Unlimited PDFs</li>
-                  <li>Unlimited Fragen</li>
-                  <li>Priority Support</li>
-                </ul>
-              </div>
-              <div class="price-tier">
-                <h5>Student</h5>
-                <p class="price">2,99€/Monat</p>
-                <ul class="list small">
-                  <li>= Pro mit Nachweis</li>
-                </ul>
-              </div>
-            </div>
-          </div>
+          <h4>To-Do:</h4>
+          <ul class="list">
+            <li>TikTok/Reel: "POV: Du fragst dein Schulbuch"</li>
+            <li>In Discord/WhatsApp-Gruppen teilen</li>
+            <li>Story posten mit Link</li>
+          </ul>
           <div class="phase-output">
-            <h4>Ergebnis nach Woche 4</h4>
-            <div class="results-grid">
-              <div class="result">
-                <span class="result-num">127</span>
-                <span class="result-label">Signups</span>
-              </div>
-              <div class="result">
-                <span class="result-num">23</span>
-                <span class="result-label">Paid Users</span>
-              </div>
-              <div class="result">
-                <span class="result-num">~100€</span>
-                <span class="result-label">MRR</span>
-              </div>
-            </div>
+            <h4>Mögliches Ergebnis:</h4>
+            <p>50-200 Nutzer, 10-30 davon regelmäßig</p>
           </div>
         </div>
       </div>
     </div>
 
     <div class="card">
-      <h3>📊 Business Case Rechnung</h3>
-      <div class="biz-calc">
-        <div class="calc-section">
-          <h4>Kosten (pro Monat)</h4>
-          <div class="calc-row">
-            <span>Server (Hetzner)</span>
-            <span>15€</span>
-          </div>
-          <div class="calc-row">
-            <span>OpenAI API (~5000 Anfragen)</span>
-            <span>~25€</span>
-          </div>
-          <div class="calc-row">
-            <span>Domain</span>
-            <span>~1€</span>
-          </div>
-          <div class="calc-row total">
-            <span>Total Kosten</span>
-            <span>~41€</span>
-          </div>
+      <h3>💸 Kosten</h3>
+      <div class="results-grid" style="margin-top: 12px;">
+        <div class="result">
+          <span class="result-num">~15€</span>
+          <span class="result-label">pro Monat</span>
         </div>
-        <div class="calc-section">
-          <h4>Einnahmen (Beispiel: 50 zahlende User)</h4>
-          <div class="calc-row">
-            <span>30x Pro (4,99€)</span>
-            <span>150€</span>
-          </div>
-          <div class="calc-row">
-            <span>20x Student (2,99€)</span>
-            <span>60€</span>
-          </div>
-          <div class="calc-row total">
-            <span>Total MRR</span>
-            <span>210€</span>
-          </div>
+        <div class="result">
+          <span class="result-num">= 3</span>
+          <span class="result-label">Pizzen 🍕</span>
         </div>
-        <div class="calc-section">
-          <h4>Profit</h4>
-          <div class="calc-row profit">
-            <span>MRR - Kosten</span>
-            <span class="green">+169€/Monat</span>
-          </div>
+        <div class="result">
+          <span class="result-num">= 5</span>
+          <span class="result-label">Starbucks ☕</span>
         </div>
       </div>
-      <div class="callout">
-        <strong>💡 Reality Check:</strong> Das sind keine Life-changing Zahlen. Aber: Du hast ein profitables Produkt, gelernt zu builden, und eine Basis zum Skalieren. Das ist mehr als 99% erreichen.
+    </div>
+
+    <div class="card highlight-card">
+      <h3>🎯 Zusammenfassung</h3>
+      <div class="summary-steps">
+        <div class="summary-step">
+          <span class="step-num">1</span>
+          <span>Idee testen</span>
+        </div>
+        <span class="step-arrow">→</span>
+        <div class="summary-step">
+          <span class="step-num">2</span>
+          <span>Prototyp bauen</span>
+        </div>
+        <span class="step-arrow">→</span>
+        <div class="summary-step">
+          <span class="step-num">3</span>
+          <span>Online bringen</span>
+        </div>
+        <span class="step-arrow">→</span>
+        <div class="summary-step">
+          <span class="step-num">4</span>
+          <span>Teilen</span>
+        </div>
       </div>
+      <p class="summary-note">Du musst nicht alles auf einmal können. Google, YouTube und ChatGPT helfen dir.</p>
     </div>
 
     <!-- ============ USE CASES ============ -->
