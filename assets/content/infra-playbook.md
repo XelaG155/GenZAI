@@ -1,60 +1,835 @@
 # Infrastruktur Playbook - GenZAI
 
-Alles was du brauchst um von "läuft auf meinem Laptop" zu "läuft im Internet" zu kommen.
+Alles was du brauchst um Cloud Computing zu verstehen und von "läuft auf meinem Laptop" zu "läuft im Internet" zu kommen. Dieses Playbook deckt auch die Grundlagen ab, die du für Zertifizierungen wie **AZ-900 (Azure Fundamentals)** brauchst.
 
 ---
 
-## Kapitel 1: Grundlagen
+# TEIL 1: CLOUD COMPUTING GRUNDLAGEN
 
-### Was ist ein Server?
+---
 
-Ein Server ist ein Computer der 24/7 läuft und über das Internet erreichbar ist. Statt einen echten Computer zu kaufen, mietest du eine **Virtual Machine (VM)** in einem Rechenzentrum.
+## Kapitel 1: Was ist Cloud Computing?
 
-```
-Dein Laptop          →    VM in der Cloud
-- Läuft wenn du willst    - Läuft immer
-- Nur du erreichst es     - Jeder kann es erreichen
-- Dein WLAN               - Datacenter Internet
-```
+### Die Simple Erklärung
 
-### VM Optionen
-
-| Typ | Wofür? | Kosten |
-|-----|--------|--------|
-| **CPU VM** | Websites, APIs, RAG | 5-50€/mo |
-| **GPU VM** | Eigene Modelle hosten | 50-500€/mo |
-| **Serverless** | Kleine Functions | 0-20€/mo |
-
-**Für 99% der AI-Projekte reicht eine CPU VM!** Du nutzt ja APIs (OpenAI, etc.) – die haben die GPUs.
-
-### Provider Empfehlungen
-
-**Budget (5-20€):**
-- **Hetzner** - Deutsch, günstig, solide
-- **Scaleway** - EU, gute Free Tier
-- **Contabo** - Sehr günstig, okay Performance
-
-**Easy Start (10-50€):**
-- **DigitalOcean** - Super Docs, simple UI
-- **Render** - Git-Push = Deploy
-- **Railway** - Für Entwickler gemacht
-
-**Enterprise:**
-- **AWS** - Alles möglich, komplex
-- **GCP** - Google Cloud
-- **Azure** - Microsoft
-
-### Meine Empfehlung
+**Cloud Computing** = Computer-Ressourcen (Server, Storage, Datenbanken, etc.) über das Internet mieten statt kaufen.
 
 ```
-Erstes Projekt? → Render oder Railway (am einfachsten)
-Budget knapp?   → Hetzner Cloud
-Mehr Kontrolle? → DigitalOcean
+Früher (On-Premises):
+┌─────────────────────────────────────────┐
+│  Deine Firma                            │
+│  ┌─────────────────────────────────┐    │
+│  │  Eigener Serverraum             │    │
+│  │  - Server kaufen ($$$$)         │    │
+│  │  - Strom zahlen                 │    │
+│  │  - IT-Team einstellen           │    │
+│  │  - Klimaanlage                  │    │
+│  │  - Sicherheit                   │    │
+│  └─────────────────────────────────┘    │
+└─────────────────────────────────────────┘
+
+Heute (Cloud):
+┌─────────────────┐         ┌─────────────────┐
+│  Deine Firma    │ ──────> │  Cloud Provider │
+│  - Laptop       │ Internet│  - Rechenzentren│
+│  - Internet     │         │  - Server       │
+│                 │         │  - Storage      │
+│  Miete was du   │         │  - Alles managed│
+│  brauchst       │         │                 │
+└─────────────────┘         └─────────────────┘
+```
+
+### Warum Cloud? Die 6 Vorteile
+
+| Vorteil | Erklärung | Real-World Beispiel |
+|---------|-----------|---------------------|
+| **1. Keine Vorabkosten** | Kein Server kaufen, pay-as-you-go | Startup startet mit 10€/Monat statt 10.000€ Server |
+| **2. Skalierbarkeit** | Mehr Power wenn nötig, weniger wenn nicht | Black Friday: 100x mehr Server, danach wieder runter |
+| **3. Elastizität** | Automatisch hoch/runterskalieren | Viral TikTok → Auto-Scale → kein Crash |
+| **4. Globale Reichweite** | Server überall auf der Welt | App in Frankfurt UND Tokyo deployen |
+| **5. Hochverfügbarkeit** | Läuft auch wenn Hardware stirbt | Server crashed → automatisch neuer Server |
+| **6. Schnelligkeit** | Neue Server in Minuten, nicht Wochen | Idee → Deploy in 10 Minuten |
+
+### CapEx vs OpEx (Wichtig für AZ-900!)
+
+```
+CapEx (Capital Expenditure) = KAUFEN
+────────────────────────────────────
+- Einmalige große Ausgabe
+- Server, Hardware, Gebäude
+- Abschreibung über Jahre
+- Eigentum der Firma
+
+Beispiel: Server für 10.000€ kaufen
+         → 5 Jahre nutzen
+         → 2.000€/Jahr Abschreibung
+
+OpEx (Operational Expenditure) = MIETEN
+────────────────────────────────────────
+- Laufende monatliche Kosten
+- Cloud-Subscriptions, Miete
+- Sofort als Ausgabe verbucht
+- Flexibel skalierbar
+
+Beispiel: Cloud-Server für 100€/Monat
+         → Jederzeit kündbar
+         → Mehr/weniger buchen
+```
+
+**Cloud = OpEx-Modell** → Weniger Risiko, mehr Flexibilität
+
+---
+
+## Kapitel 2: Cloud Service-Modelle (IaaS, PaaS, SaaS)
+
+### Das Pizza-Modell 🍕
+
+```
+                    Was DU machst vs. was der PROVIDER macht
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                                                                      │
+│   ON-PREMISES     IaaS          PaaS          SaaS                  │
+│   (Selbst)        (Infra)       (Plattform)   (Software)            │
+│                                                                      │
+│   ┌─────────┐    ┌─────────┐    ┌─────────┐   ┌─────────┐          │
+│   │ App     │    │ App     │    │ App     │   │░░░░░░░░░│ Provider │
+│   ├─────────┤    ├─────────┤    ├─────────┤   ├─────────┤          │
+│   │ Data    │    │ Data    │    │░░░░░░░░░│   │░░░░░░░░░│ Provider │
+│   ├─────────┤    ├─────────┤    ├─────────┤   ├─────────┤          │
+│   │ Runtime │    │ Runtime │    │░░░░░░░░░│   │░░░░░░░░░│ Provider │
+│   ├─────────┤    ├─────────┤    ├─────────┤   ├─────────┤          │
+│   │ OS      │    │ OS      │    │░░░░░░░░░│   │░░░░░░░░░│ Provider │
+│   ├─────────┤    ├─────────┤    ├─────────┤   ├─────────┤          │
+│   │ Server  │    │░░░░░░░░░│    │░░░░░░░░░│   │░░░░░░░░░│ Provider │
+│   ├─────────┤    ├─────────┤    ├─────────┤   ├─────────┤          │
+│   │ Storage │    │░░░░░░░░░│    │░░░░░░░░░│   │░░░░░░░░░│ Provider │
+│   ├─────────┤    ├─────────┤    ├─────────┤   ├─────────┤          │
+│   │ Network │    │░░░░░░░░░│    │░░░░░░░░░│   │░░░░░░░░░│ Provider │
+│   └─────────┘    └─────────┘    └─────────┘   └─────────┘          │
+│                                                                      │
+│   Selbst Pizza   Tiefkühlpizza  Lieferservice Restaurant           │
+│   machen         aufbacken      bestellen     essen gehen           │
+│                                                                      │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### IaaS - Infrastructure as a Service
+
+**Du mietest:** Virtuelle Maschinen, Storage, Netzwerk
+**Du machst:** OS installieren, Software einrichten, alles konfigurieren
+
+```
+Beispiele:
+- Azure Virtual Machines
+- AWS EC2
+- Google Compute Engine
+- Hetzner Cloud
+- DigitalOcean Droplets
+
+Wann nutzen?
+✓ Volle Kontrolle gebraucht
+✓ Spezielle Software-Anforderungen
+✓ Legacy-Apps migrieren
+✓ Du weißt was du tust
+
+Für AI-Projekte:
+→ GPU-VMs für eigenes Model Training
+→ Eigene RAG-Infrastruktur
+→ Self-hosted LLMs (Llama, Mistral)
+```
+
+### PaaS - Platform as a Service
+
+**Du mietest:** Komplette Plattform zum Entwickeln
+**Du machst:** Nur deinen Code schreiben und deployen
+
+```
+Beispiele:
+- Azure App Service
+- AWS Elastic Beanstalk
+- Google App Engine
+- Heroku
+- Railway
+- Render
+
+Wann nutzen?
+✓ Schnell deployen ohne Server-Stress
+✓ Fokus auf Code, nicht Infrastruktur
+✓ Auto-Scaling gewünscht
+✓ Team ohne DevOps-Expertise
+
+Für AI-Projekte:
+→ FastAPI-Backend mit OpenAI-Integration
+→ RAG-Apps mit managed Vektor-DBs
+→ Chatbot-APIs
+```
+
+### SaaS - Software as a Service
+
+**Du mietest:** Fertige Software über Browser/API
+**Du machst:** Nur benutzen
+
+```
+Beispiele:
+- Microsoft 365
+- Google Workspace
+- Salesforce
+- Slack, Notion, Figma
+- OpenAI API (!)
+- ChatGPT Plus
+
+Wann nutzen?
+✓ Standard-Software reicht
+✓ Keine Entwicklung nötig
+✓ Sofort loslegen
+
+Für AI-Projekte:
+→ OpenAI/Anthropic APIs = SaaS!
+→ Du baust keine LLMs, du NUTZT sie
+→ Pinecone, Weaviate Cloud = SaaS Vector DBs
+```
+
+### Vergleich auf einen Blick
+
+| Aspekt | IaaS | PaaS | SaaS |
+|--------|------|------|------|
+| **Kontrolle** | Hoch | Mittel | Niedrig |
+| **Flexibilität** | Hoch | Mittel | Niedrig |
+| **Management-Aufwand** | Hoch | Niedrig | Keiner |
+| **Kosten** | Variabel | Mittel | Fix/User |
+| **Setup-Zeit** | Stunden | Minuten | Sofort |
+| **Beispiel** | Hetzner VM | Railway | ChatGPT |
+
+### Shared Responsibility Model
+
+Wichtig zu verstehen: **Wer ist wofür verantwortlich?**
+
+```
+                        On-Prem    IaaS     PaaS     SaaS
+                        ───────    ────     ────     ────
+Daten & Zugang            DU        DU       DU       DU
+Identität & Accounts      DU        DU       DU       DU
+Anwendungen               DU        DU       DU     Provider
+Netzwerk-Kontrolle        DU        DU     Geteilt  Provider
+OS                        DU        DU     Provider Provider
+Physische Hosts           DU     Provider  Provider Provider
+Physisches Netzwerk       DU     Provider  Provider Provider
+Physisches Datacenter     DU     Provider  Provider Provider
+```
+
+**Merke:** Auch in der Cloud bist DU für deine Daten und Zugänge verantwortlich!
+
+---
+
+## Kapitel 3: Cloud-Deployment-Modelle
+
+### Public Cloud
+
+```
+┌──────────────────────────────────────────────┐
+│              PUBLIC CLOUD                     │
+│                                               │
+│  ┌─────────┐ ┌─────────┐ ┌─────────┐        │
+│  │ Firma A │ │ Firma B │ │ Firma C │        │
+│  └────┬────┘ └────┬────┘ └────┬────┘        │
+│       │           │           │              │
+│       └───────────┼───────────┘              │
+│                   ▼                          │
+│         ┌─────────────────┐                  │
+│         │  Shared Infra   │                  │
+│         │  (Azure, AWS)   │                  │
+│         └─────────────────┘                  │
+│                                               │
+│  ✓ Jeder kann es nutzen                      │
+│  ✓ Pay-per-use                               │
+│  ✓ Keine Hardware-Kosten                     │
+│  ✓ Schnell skalierbar                        │
+│                                               │
+│  Beispiele: Azure, AWS, GCP, Hetzner         │
+└──────────────────────────────────────────────┘
+```
+
+### Private Cloud
+
+```
+┌──────────────────────────────────────────────┐
+│              PRIVATE CLOUD                    │
+│                                               │
+│  ┌─────────────────────────────────────┐     │
+│  │           NUR DEINE FIRMA           │     │
+│  │                                     │     │
+│  │  ┌──────────────────────────────┐  │     │
+│  │  │     Eigenes Datacenter       │  │     │
+│  │  │     ODER                     │  │     │
+│  │  │     Dedicated Cloud          │  │     │
+│  │  └──────────────────────────────┘  │     │
+│  │                                     │     │
+│  └─────────────────────────────────────┘     │
+│                                               │
+│  ✓ Volle Kontrolle                           │
+│  ✓ Compliance-freundlich                     │
+│  ✓ Maximale Sicherheit                       │
+│  ✗ Teurer                                    │
+│  ✗ Mehr Management                           │
+│                                               │
+│  Beispiele: Azure Stack, VMware, OpenStack   │
+│  Wer nutzt es: Banken, Behörden, Gesundheit  │
+└──────────────────────────────────────────────┘
+```
+
+### Hybrid Cloud
+
+```
+┌──────────────────────────────────────────────┐
+│              HYBRID CLOUD                     │
+│                                               │
+│  ┌───────────────┐      ┌───────────────┐   │
+│  │ Private Cloud │◄────►│ Public Cloud  │   │
+│  │ (On-Premises) │      │ (Azure/AWS)   │   │
+│  │               │      │               │   │
+│  │ Sensible      │      │ Weniger       │   │
+│  │ Daten         │      │ sensible      │   │
+│  │               │      │ Workloads     │   │
+│  └───────────────┘      └───────────────┘   │
+│                                               │
+│  ✓ Best of both worlds                       │
+│  ✓ Flexibel                                  │
+│  ✓ Schrittweise Migration                    │
+│  ✗ Komplexer zu managen                      │
+│                                               │
+│  Beispiel: Kundendaten lokal, AI in Cloud    │
+└──────────────────────────────────────────────┘
+```
+
+### Multi-Cloud
+
+```
+┌──────────────────────────────────────────────┐
+│              MULTI-CLOUD                      │
+│                                               │
+│      ┌─────────┐ ┌─────────┐ ┌─────────┐    │
+│      │  Azure  │ │   AWS   │ │   GCP   │    │
+│      └────┬────┘ └────┬────┘ └────┬────┘    │
+│           │           │           │          │
+│           └───────────┼───────────┘          │
+│                       ▼                      │
+│              ┌─────────────┐                 │
+│              │ Deine Apps  │                 │
+│              └─────────────┘                 │
+│                                               │
+│  ✓ Kein Vendor Lock-in                       │
+│  ✓ Best-of-breed Services                    │
+│  ✓ Redundanz                                 │
+│  ✗ Sehr komplex                              │
+│  ✗ Braucht viel Expertise                    │
+│                                               │
+│  Wer macht das: Große Enterprises            │
+└──────────────────────────────────────────────┘
+```
+
+### Welches Modell für dich?
+
+```
+Startup/Side Project     → Public Cloud (Azure, Hetzner)
+Sensible Daten (DSGVO)   → Private oder Hybrid
+Enterprise               → Hybrid oder Multi-Cloud
+AI-Projekte              → Public Cloud (99% der Fälle)
 ```
 
 ---
 
-## Kapitel 2: Server Setup (Hetzner Beispiel)
+## Kapitel 4: Virtualisierung Deep Dive
+
+### Was ist Virtualisierung?
+
+**Virtualisierung** = Ein physischer Computer tut so, als wäre er mehrere Computer.
+
+```
+OHNE Virtualisierung:
+┌─────────────────────────────────────┐
+│        Physischer Server            │
+│  ┌───────────────────────────────┐  │
+│  │       1 Betriebssystem        │  │
+│  │       1 Anwendung             │  │
+│  │                               │  │
+│  │   💰 Ressourcen verschwendet  │  │
+│  │   (Server nur 10% ausgelastet)│  │
+│  └───────────────────────────────┘  │
+└─────────────────────────────────────┘
+
+MIT Virtualisierung:
+┌─────────────────────────────────────┐
+│        Physischer Server            │
+│  ┌─────────┐ ┌─────────┐ ┌───────┐ │
+│  │  VM 1   │ │  VM 2   │ │ VM 3  │ │
+│  │ Ubuntu  │ │ Windows │ │ Debian│ │
+│  │ Web-App │ │ DB      │ │ AI    │ │
+│  └─────────┘ └─────────┘ └───────┘ │
+│  ┌───────────────────────────────┐  │
+│  │         HYPERVISOR            │  │
+│  └───────────────────────────────┘  │
+│  ┌───────────────────────────────┐  │
+│  │      Hardware (CPU, RAM)      │  │
+│  └───────────────────────────────┘  │
+│                                     │
+│   ✓ Bessere Auslastung (80%+)      │
+│   ✓ Isolation zwischen VMs         │
+│   ✓ Verschiedene OS gleichzeitig   │
+└─────────────────────────────────────┘
+```
+
+### Der Hypervisor
+
+Der **Hypervisor** ist die Software, die VMs ermöglicht. Es gibt zwei Typen:
+
+```
+TYP 1 - Bare Metal (direkt auf Hardware)
+──────────────────────────────────────────
+┌─────────┐ ┌─────────┐ ┌─────────┐
+│  VM 1   │ │  VM 2   │ │  VM 3   │
+└────┬────┘ └────┬────┘ └────┬────┘
+     └───────────┼───────────┘
+                 ▼
+    ┌─────────────────────────┐
+    │   Hypervisor (Typ 1)    │
+    │   VMware ESXi, Hyper-V  │
+    │   Xen, KVM              │
+    └─────────────────────────┘
+                 ▼
+    ┌─────────────────────────┐
+    │       Hardware          │
+    └─────────────────────────┘
+
+→ Für Server/Cloud-Provider
+→ Beste Performance
+→ Azure/AWS nutzen das
+
+
+TYP 2 - Hosted (auf einem OS)
+──────────────────────────────────────────
+┌─────────┐ ┌─────────┐ ┌─────────┐
+│  VM 1   │ │  VM 2   │ │ Andere  │
+└────┬────┘ └────┬────┘ │  Apps   │
+     └───────────┼───────────┘
+                 ▼
+    ┌─────────────────────────┐
+    │   Hypervisor (Typ 2)    │
+    │   VirtualBox, VMware    │
+    │   Workstation, Parallels│
+    └─────────────────────────┘
+                 ▼
+    ┌─────────────────────────┐
+    │  Host OS (Windows/Mac)  │
+    └─────────────────────────┘
+                 ▼
+    ┌─────────────────────────┐
+    │       Hardware          │
+    └─────────────────────────┘
+
+→ Für Entwickler/Testen
+→ Einfach zu nutzen
+→ Weniger Performance
+```
+
+### VMs vs Container
+
+```
+Virtual Machines                    Container
+──────────────────                  ──────────────────
+┌─────────┐ ┌─────────┐            ┌─────────┐ ┌─────────┐
+│  App A  │ │  App B  │            │  App A  │ │  App B  │
+├─────────┤ ├─────────┤            └────┬────┘ └────┬────┘
+│  Libs   │ │  Libs   │                 │           │
+├─────────┤ ├─────────┤            ┌────┴───────────┴────┐
+│Guest OS │ │Guest OS │            │   Container Runtime │
+│(Ubuntu) │ │(Debian) │            │      (Docker)       │
+└────┬────┘ └────┬────┘            └──────────┬──────────┘
+     └─────┬─────┘                            │
+           ▼                                  ▼
+┌─────────────────────┐            ┌─────────────────────┐
+│     Hypervisor      │            │       Host OS       │
+└─────────────────────┘            └─────────────────────┘
+
+Größe: GBs                         Größe: MBs
+Start: Minuten                     Start: Sekunden
+Isolation: Stark                   Isolation: Schwächer
+Use Case: Verschiedene OS          Use Case: Microservices
+```
+
+### CPU, RAM, Storage - Was du mietest
+
+**vCPU (Virtual CPU)**
+```
+1 vCPU ≈ 1 Thread eines physischen CPU-Kerns
+- Nicht ein ganzer Kern, sondern Zeit darauf
+- "Shared" = andere VMs teilen sich die CPU
+- "Dedicated" = garantierte CPU-Zeit
+
+Für AI-Projekte:
+- API-Server: 1-2 vCPU reichen
+- RAG mit vielen Requests: 4+ vCPU
+- Model Inference (lokal): 8+ vCPU oder GPU
+```
+
+**RAM**
+```
+RAM = Arbeitsspeicher der VM
+- Mehr RAM = mehr gleichzeitige Operationen
+- RAG-Systeme: 4-8 GB minimum
+- Embedding-Models lokal: 8-16 GB
+- LLMs lokal: 16-64 GB
+
+Faustregel:
+- Simple API: 2 GB
+- RAG-App: 4-8 GB
+- Production: 8-16 GB
+```
+
+**Storage**
+```
+Typen:
+- SSD (Standard): Schnell, für OS + Apps
+- NVMe SSD: Sehr schnell, für Datenbanken
+- HDD: Langsam, günstig, für Backups/Archive
+
+Für AI-Projekte:
+- OS + Docker: 20-40 GB
+- Vector DB (klein): 10-20 GB
+- Dokumente für RAG: Je nach Menge
+- Empfehlung Start: 80 GB SSD
+```
+
+---
+
+## Kapitel 5: Cloud-Konzepte für Zuverlässigkeit
+
+### High Availability (HA)
+
+**Hochverfügbarkeit** = System läuft auch wenn Teile ausfallen
+
+```
+OHNE HA:
+┌─────────────┐
+│  1 Server   │  ──── Server stirbt ──── 💀 App down
+└─────────────┘
+
+MIT HA:
+┌─────────────┐    ┌─────────────┐
+│  Server 1   │    │  Server 2   │
+└──────┬──────┘    └──────┬──────┘
+       │                  │
+       └────────┬─────────┘
+                ▼
+        ┌──────────────┐
+        │ Load Balancer│
+        └──────────────┘
+                │
+    Server 1 stirbt? → Load Balancer schickt
+                        Traffic zu Server 2
+                     → User merkt nichts
+```
+
+**Availability in Prozent:**
+```
+99%      = 3.65 Tage Downtime/Jahr    (nicht gut)
+99.9%    = 8.76 Stunden Downtime/Jahr (okay)
+99.99%   = 52 Minuten Downtime/Jahr   (gut)
+99.999%  = 5 Minuten Downtime/Jahr    (sehr gut)
+
+Azure SLA Beispiele:
+- VMs (einzeln): 99.9%
+- VMs (Availability Set): 99.95%
+- VMs (Availability Zones): 99.99%
+```
+
+### Skalierbarkeit
+
+**Vertical Scaling (Scale Up/Down)**
+```
+┌─────────────┐         ┌─────────────────────┐
+│   2 vCPU    │   →→→   │      8 vCPU         │
+│   4 GB RAM  │         │     32 GB RAM       │
+│   Kleine VM │         │    Größere VM       │
+└─────────────┘         └─────────────────────┘
+
+✓ Einfach
+✓ Keine Code-Änderungen
+✗ Hat Limits (max. VM-Größe)
+✗ Downtime beim Upgrade
+```
+
+**Horizontal Scaling (Scale Out/In)**
+```
+┌─────────┐         ┌─────────┐ ┌─────────┐ ┌─────────┐
+│   VM    │   →→→   │   VM    │ │   VM    │ │   VM    │
+└─────────┘         └─────────┘ └─────────┘ └─────────┘
+
+✓ Theoretisch unbegrenzt
+✓ Bessere Verfügbarkeit
+✗ App muss "stateless" sein
+✗ Komplexer (Load Balancer etc.)
+```
+
+### Elastizität
+
+**Elastizität** = Automatisch skalieren basierend auf Bedarf
+
+```
+Traffic-Muster:
+                    ┌───┐
+                    │   │
+              ┌─────┤   ├─────┐
+              │     │   │     │
+        ┌─────┤     │   │     ├─────┐
+────────┤     │     │   │     │     ├────────
+   Nacht      Morgen    Mittag      Abend
+
+Ohne Elastizität:
+────────────────────────────────────────────── (Feste Kapazität)
+        ▲ Verschwendet Geld wenn wenig Traffic
+        ▼ Zu wenig Kapazität bei Spitzen
+
+Mit Elastizität:
+                    ┌───┐
+              ┌─────┤   ├─────┐
+        ┌─────┤     │   │     ├─────┐
+────────┤     │     │   │     │     ├────────
+        ↑ Automatisch mehr Server
+        ↓ Automatisch weniger Server
+```
+
+### Fault Tolerance & Disaster Recovery
+
+**Fault Tolerance** = System funktioniert trotz Fehlern
+```
+- Redundante Komponenten
+- Automatisches Failover
+- Kein Datenverlust bei Hardware-Ausfall
+```
+
+**Disaster Recovery** = Wiederherstellung nach Katastrophe
+```
+RPO (Recovery Point Objective):
+→ Wie viel Datenverlust ist akzeptabel?
+→ "Maximal 1 Stunde Daten verlieren"
+
+RTO (Recovery Time Objective):
+→ Wie schnell muss System wieder laufen?
+→ "Innerhalb von 4 Stunden wieder online"
+
+Strategien:
+- Backup & Restore: Günstig, langsam (Stunden)
+- Pilot Light: Minimal-System läuft immer (Minuten)
+- Hot Standby: Volle Kopie läuft parallel (Sekunden)
+```
+
+---
+
+## Kapitel 6: Azure-Grundlagen (AZ-900)
+
+### Azure Geographie
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        GEOGRAPHY                             │
+│                    (z.B. "Europe")                          │
+│                                                              │
+│   ┌───────────────────────────────────────────────────┐     │
+│   │                    REGION                          │     │
+│   │               (z.B. "West Europe")                 │     │
+│   │                                                    │     │
+│   │   ┌─────────────────────────────────────────┐    │     │
+│   │   │         AVAILABILITY ZONE 1              │    │     │
+│   │   │   ┌─────────┐  ┌─────────┐              │    │     │
+│   │   │   │Datacenter│ │Datacenter│              │    │     │
+│   │   │   └─────────┘  └─────────┘              │    │     │
+│   │   └─────────────────────────────────────────┘    │     │
+│   │                                                    │     │
+│   │   ┌─────────────────────────────────────────┐    │     │
+│   │   │         AVAILABILITY ZONE 2              │    │     │
+│   │   │   ┌─────────┐  ┌─────────┐              │    │     │
+│   │   │   │Datacenter│ │Datacenter│              │    │     │
+│   │   │   └─────────┘  └─────────┘              │    │     │
+│   │   └─────────────────────────────────────────┘    │     │
+│   │                                                    │     │
+│   │   ┌─────────────────────────────────────────┐    │     │
+│   │   │         AVAILABILITY ZONE 3              │    │     │
+│   │   │   ┌─────────┐  ┌─────────┐              │    │     │
+│   │   │   │Datacenter│ │Datacenter│              │    │     │
+│   │   │   └─────────┘  └─────────┘              │    │     │
+│   │   └─────────────────────────────────────────┘    │     │
+│   │                                                    │     │
+│   └───────────────────────────────────────────────────┘     │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+
+Geographies:     Americas, Europe, Asia Pacific, etc.
+Regions:         West Europe, Germany West Central, etc.
+Avail. Zones:    Physisch getrennte Datacenter in einer Region
+Region Pairs:    Zwei Regions für Disaster Recovery (z.B. West Europe ↔ North Europe)
+```
+
+### Azure Ressourcen-Hierarchie
+
+```
+┌─────────────────────────────────────────────┐
+│             Management Group                 │
+│        (Optional, für große Firmen)          │
+└──────────────────────┬──────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────┐
+│              Subscription                    │
+│     (Abrechnungseinheit, z.B. "Prod")       │
+└──────────────────────┬──────────────────────┘
+                       │
+         ┌─────────────┴─────────────┐
+         ▼                           ▼
+┌─────────────────┐         ┌─────────────────┐
+│ Resource Group  │         │ Resource Group  │
+│   "rg-api-prod" │         │  "rg-db-prod"   │
+└────────┬────────┘         └────────┬────────┘
+         │                           │
+    ┌────┴────┐                 ┌────┴────┐
+    ▼         ▼                 ▼         ▼
+┌──────┐  ┌──────┐         ┌──────┐  ┌──────┐
+│ VM   │  │ App  │         │ SQL  │  │Storage│
+│      │  │Service│        │ DB   │  │      │
+└──────┘  └──────┘         └──────┘  └──────┘
+```
+
+### Wichtige Azure Services
+
+**Compute:**
+```
+Azure Virtual Machines    → IaaS, volle Kontrolle
+Azure App Service        → PaaS, Web Apps easy deployen
+Azure Functions          → Serverless, pay-per-execution
+Azure Kubernetes (AKS)   → Container Orchestration
+Azure Container Instance → Container ohne Cluster
+```
+
+**Storage:**
+```
+Blob Storage             → Unstrukturierte Daten (Files, Images)
+File Storage             → Shared File System (SMB)
+Queue Storage            → Message Queues
+Table Storage            → NoSQL Key-Value
+Disk Storage             → VHDs für VMs
+```
+
+**Datenbank:**
+```
+Azure SQL Database       → Managed SQL Server
+Cosmos DB               → Global verteilte NoSQL
+Azure Database for      → Managed PostgreSQL/MySQL
+Azure Cache for Redis   → In-Memory Caching
+```
+
+**AI & ML:**
+```
+Azure OpenAI Service    → GPT-4, DALL-E, etc.
+Azure Machine Learning  → ML Plattform
+Cognitive Services      → Vision, Speech, Language APIs
+Azure AI Search         → Vektor-Suche für RAG
+```
+
+**Netzwerk:**
+```
+Virtual Network (VNet)  → Isoliertes Netzwerk
+Load Balancer          → Traffic verteilen
+Application Gateway    → Layer 7 Load Balancer
+Azure CDN              → Content Delivery Network
+Azure DNS              → DNS Hosting
+```
+
+### Azure Kostenmodell
+
+```
+Faktoren die Kosten beeinflussen:
+──────────────────────────────────
+1. Resource Type       → VM teurer als Storage
+2. Usage              → Pay-per-use
+3. Region             → West Europe ≠ East US
+4. Tier               → Basic vs Standard vs Premium
+5. Outbound Traffic   → Inbound free, Outbound kostet
+
+Kosten sparen:
+──────────────────────────────────
+- Reserved Instances  → 1-3 Jahre committen = bis 72% sparen
+- Spot VMs           → Unused Capacity = bis 90% sparen
+- Auto-Shutdown      → Dev-VMs nachts aus
+- Right-Sizing       → Nicht zu große VMs
+- Azure Advisor      → Kostenlose Empfehlungen
+```
+
+### Azure Identität & Security
+
+```
+Azure Active Directory (Entra ID):
+─────────────────────────────────
+- Identity Provider für Azure
+- Single Sign-On (SSO)
+- Multi-Factor Authentication (MFA)
+- Conditional Access Policies
+
+RBAC (Role-Based Access Control):
+─────────────────────────────────
+- Owner        → Alles, inkl. Rechte vergeben
+- Contributor  → Alles außer Rechte vergeben
+- Reader       → Nur lesen
+- Custom Roles → Eigene Rollen definieren
+
+Prinzip: Least Privilege
+→ Nur die Rechte geben, die gebraucht werden
+```
+
+---
+
+# TEIL 2: PRAKTISCHE UMSETZUNG
+
+---
+
+## Kapitel 7: Provider Empfehlungen
+
+### Für AI-Projekte
+
+| Provider | Wofür? | Kosten | Für wen? |
+|----------|--------|--------|----------|
+| **Hetzner** | CPU VMs, super günstig | 5-50€/mo | Budget, EU-Hosting |
+| **DigitalOcean** | Easy VMs, gute Docs | 10-50€/mo | Anfänger |
+| **Railway** | PaaS, Git-Deploy | 0-50€/mo | Schnelles Prototyping |
+| **Render** | PaaS, Free Tier | 0-50€/mo | Side Projects |
+| **Azure** | Enterprise, Azure OpenAI | 20-500€/mo | Wenn Azure OpenAI gebraucht |
+| **AWS** | Alles, komplex | 20-1000€/mo | Enterprise |
+| **RunPod** | GPU VMs | 0.5-5$/h | Model Training/Inference |
+| **Lambda Labs** | GPU VMs | 1-10$/h | ML Research |
+
+### Meine Empfehlung für GenZ-Projekte
+
+```
+Phase 1 - MVP/Prototyp:
+→ Railway oder Render (Free Tier)
+→ Hetzner wenn mehr Kontrolle
+→ Kosten: 0-20€/Monat
+
+Phase 2 - Erste User:
+→ Hetzner Cloud (CX21 oder CX31)
+→ Kosten: 10-30€/Monat
+
+Phase 3 - Wachstum:
+→ DigitalOcean oder Azure
+→ Kosten: 50-200€/Monat
+
+Für Azure-Erfahrung (AZ-900):
+→ Azure Free Account (200$ Guthaben)
+→ Azure for Students (100$ Guthaben)
+```
+
+---
+
+## Kapitel 8: Server Setup (Hetzner Beispiel)
 
 ### Schritt 1: Account & VM erstellen
 
@@ -145,7 +920,7 @@ sudo systemctl restart sshd
 
 ---
 
-## Kapitel 3: Docker
+## Kapitel 9: Docker
 
 ### Was ist Docker?
 
@@ -272,7 +1047,7 @@ docker compose build && docker compose up -d
 
 ---
 
-## Kapitel 4: Deployment
+## Kapitel 10: Deployment
 
 ### Option A: Manuelles Deploy
 
@@ -331,7 +1106,7 @@ jobs:
 
 ---
 
-## Kapitel 5: HTTPS & Domain
+## Kapitel 11: HTTPS & Domain
 
 ### Domain kaufen
 
@@ -393,7 +1168,7 @@ sudo journalctl -u caddy -f
 
 ---
 
-## Kapitel 6: Monitoring
+## Kapitel 12: Monitoring
 
 ### Basic: Docker Logs
 
@@ -463,7 +1238,7 @@ async def log_requests(request, call_next):
 
 ---
 
-## Kapitel 7: Kosten
+## Kapitel 13: Kosten & Optimierung
 
 ### Beispiel-Kalkulation
 
@@ -519,7 +1294,7 @@ def log_usage(prompt: str, response: str, model: str):
 
 ---
 
-## Kapitel 8: Security Checklist
+## Kapitel 14: Security Checklist
 
 ### Vor dem Launch
 
@@ -546,7 +1321,7 @@ def log_usage(prompt: str, response: str, model: str):
 
 ---
 
-## Kapitel 9: Troubleshooting
+## Kapitel 15: Troubleshooting
 
 ### Container startet nicht
 
@@ -657,9 +1432,10 @@ sudo apt update && sudo apt upgrade -y
 
 ## Next Steps
 
-1. **Erstes Deploy**: Folge Kapitel 2-5 Schritt für Schritt
-2. **Monitoring**: Richte UptimeRobot ein
-3. **Automatisierung**: GitHub Actions für Auto-Deploy
-4. **Skalierung**: Bei Bedarf größere VM oder mehrere Container
+1. **Cloud-Basics verstehen**: Kapitel 1-6 für die Theorie (auch AZ-900 relevant!)
+2. **Erstes Deploy**: Kapitel 8-11 Schritt für Schritt
+3. **Monitoring**: Richte UptimeRobot ein (Kapitel 12)
+4. **Security**: Checklist in Kapitel 14 durchgehen
+5. **Zertifizierung**: Mit diesem Wissen bist du bereit für AZ-900!
 
 Du hast das. Ship it! 🚀
